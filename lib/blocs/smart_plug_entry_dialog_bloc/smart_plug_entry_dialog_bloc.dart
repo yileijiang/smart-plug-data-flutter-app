@@ -11,6 +11,7 @@ class SmartPlugEntryDialogBloc
   SmartPlugEntryDialogBloc({required this.smartPlugEntriesRepository})
       : super(SmartPlugEntryDialogClosed()) {
     on<OpenSmartPlugEntryDialog>(_mapOpenSmartPlugEntryDialogEventToState);
+    on<CloseSmartPlugEntryDialog>(_mapCloseSmartPlugEntryDialogEventToState);
     on<UpdateSmartPlugEntry>(_mapUpdateSmartPlugEntryEventToState);
     on<DeleteSmartPlugEntry>(_mapDeleteSmartPlugEntryEventToState);
   }
@@ -20,6 +21,11 @@ class SmartPlugEntryDialogBloc
     emit(SmartPlugEntryDialogOpen(event.smartPlugEntry));
   }
 
+  void _mapCloseSmartPlugEntryDialogEventToState(CloseSmartPlugEntryDialog event,
+      Emitter<SmartPlugEntryDialogState> emit) async {
+    emit(SmartPlugEntryDialogClosed());
+  }
+
   void _mapUpdateSmartPlugEntryEventToState(UpdateSmartPlugEntry event,
       Emitter<SmartPlugEntryDialogState> emit) async {
     try {
@@ -27,6 +33,7 @@ class SmartPlugEntryDialogBloc
           event.smartPlugEntry, event.newLabel);
       emit(SmartPlugEntryUpdated());
       ToastUtils.showSuccessToast('Entry saved');
+      emit(SmartPlugEntryDialogClosed());
     } catch (e) {
       ToastUtils.showErrorToast('Error saving entry');
     }
@@ -39,6 +46,7 @@ class SmartPlugEntryDialogBloc
           .deleteSmartPlugEntry(event.smartPlugEntry);
       emit(SmartPlugEntryDeleted());
       ToastUtils.showSuccessToast('Entry deleted');
+      emit(SmartPlugEntryDialogClosed());
     } catch (e) {
       ToastUtils.showErrorToast('Error deleting entry');
     }

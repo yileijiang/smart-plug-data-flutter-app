@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_plug_data/ui/screens/registered_smart_plugs_page.dart';
+import 'package:smart_plug_data/ui/screens/settings_page.dart';
 
 class MenuAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -36,13 +37,10 @@ class MenuAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
           ),
           onSelected: (value) {
             if (value == 1) {
-              /*
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const SettingsPage()),
               );
-
-               */
             } else if (value == 2) {
               Navigator.push(
                 context,

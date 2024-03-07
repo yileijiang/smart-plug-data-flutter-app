@@ -14,7 +14,7 @@ class RegisteredSmartPlugsListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<RegisteredSmartPlugDialogBloc, RegisteredSmartPlugDialogState>(
       listener: (context, state) {
-        if (state is RegisteredSmartPlugUpdated || state is RegisteredSmartPlugDeleted) {
+        if (state is RegisteredSmartPlugUpdated || state is RegisteredSmartPlugDeleted || state is NewRegisteredSmartPlugAdded) {
           BlocProvider.of<RegisteredSmartPlugsBloc>(context).add(FetchRegisteredSmartPlugs());
         }
       },
@@ -31,7 +31,7 @@ class RegisteredSmartPlugsListWidget extends StatelessWidget {
                   final smartPlug = state.registeredSmartPlugs[index];
                   return ListTile(
                       title: Text(
-                        '${smartPlug.homeAssistantEntityId}'
+                        smartPlug.homeAssistantEntityId
                       ),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,7 +58,7 @@ class RegisteredSmartPlugsListWidget extends StatelessWidget {
                         icon: const Icon(Icons.edit),
                         onPressed: () {
                           BlocProvider.of<RegisteredSmartPlugDialogBloc>(context)
-                              .add(OpenRegisteredSmartPlugDialog(smartPlug));
+                              .add(OpenEditRegisteredSmartPlugDialog(smartPlug));
                         },
                       ));
                 },

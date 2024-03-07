@@ -4,7 +4,8 @@ import 'package:smart_plug_data/blocs/registered_smart_plug_dialog_bloc/register
 import 'package:smart_plug_data/blocs/registered_smart_plugs_bloc/registered_smart_plugs_bloc.dart';
 import 'package:smart_plug_data/blocs/registered_smart_plugs_bloc/registered_smart_plugs_event.dart';
 import 'package:smart_plug_data/data/repositories/registered_smart_plugs_repository.dart';
-import 'package:smart_plug_data/ui/widgets/edit_registered_smart_plug_dialog.dart';
+import 'package:smart_plug_data/ui/widgets/registered_smart_plug_dialog_widget.dart';
+import 'package:smart_plug_data/ui/widgets/new_registered_smart_plug_button.dart';
 import 'package:smart_plug_data/ui/widgets/registered_smart_plugs_list_widget.dart';
 
 class RegisteredSmartPlugsPage extends StatelessWidget {
@@ -19,13 +20,13 @@ class RegisteredSmartPlugsPage extends StatelessWidget {
           BlocProvider<RegisteredSmartPlugsBloc>(
             create: (context) => RegisteredSmartPlugsBloc(
               registeredSmartPlugsRepository:
-              context.read<RegisteredSmartPlugsRepository>(),
+                  context.read<RegisteredSmartPlugsRepository>(),
             )..add(FetchRegisteredSmartPlugs()),
           ),
           BlocProvider<RegisteredSmartPlugDialogBloc>(
             create: (context) => RegisteredSmartPlugDialogBloc(
               registeredSmartPlugsRepository:
-              context.read<RegisteredSmartPlugsRepository>(),
+                  context.read<RegisteredSmartPlugsRepository>(),
             ),
           ),
         ],
@@ -33,7 +34,7 @@ class RegisteredSmartPlugsPage extends StatelessWidget {
           appBar: AppBar(
             title: const Text('Registered Smart Plugs'),
           ),
-          body: Center(
+          body: const Center(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -42,13 +43,7 @@ class RegisteredSmartPlugsPage extends StatelessWidget {
               ],
             ),
           ),
-          /*
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-
-       */
+          floatingActionButton: const NewRegisteredSmartPlugButton(),
         ),
       ),
     );

@@ -62,7 +62,9 @@ class SmartPlugEntryDialog extends StatelessWidget {
       actions: <Widget>[
         TextButton(
           onPressed: () {
-            Navigator.of(context).pop();
+            smartPlugEntryDialogBloc.add(
+              CloseSmartPlugEntryDialog(),
+            );
           },
           child: const Text('Close'),
         ),
@@ -99,7 +101,7 @@ class SmartPlugEntryDialogWidget extends StatelessWidget {
                 );
               },
             );
-          } else if (state is SmartPlugEntryUpdated || state is SmartPlugEntryDeleted) {
+          } else if (state is SmartPlugEntryDialogClosed) {
             Navigator.of(context).pop();
           }
         },

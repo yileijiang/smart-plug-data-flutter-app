@@ -40,6 +40,7 @@ class HomePage extends StatelessWidget {
               children: <Widget>[
                 SmartPlugEntriesListWidget(),
                 SmartPlugEntryDialogWidget(),
+
               ],
             ),
           ),

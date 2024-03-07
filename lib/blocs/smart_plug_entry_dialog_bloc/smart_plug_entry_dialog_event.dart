@@ -8,6 +8,9 @@ class OpenSmartPlugEntryDialog extends SmartPlugEntryDialogEvent {
   OpenSmartPlugEntryDialog(this.smartPlugEntry);
 }
 
+class CloseSmartPlugEntryDialog extends SmartPlugEntryDialogEvent {
+}
+
 class UpdateSmartPlugEntry extends SmartPlugEntryDialogEvent {
   final SmartPlugEntry smartPlugEntry;
   final String newLabel;

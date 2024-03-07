@@ -17,6 +17,16 @@ class RegisteredSmartPlugsRepository {
     return registeredSmartPlugs;
   }
 
+  Future<void> createRegisteredSmartPlug(String homeAssistantEntityId , String deviceClassAttribute, bool getNotificationsBoolean) async {
+    final newSmartPlug = RegisteredSmartPlugsCompanion(
+      homeAssistantEntityId: Value(homeAssistantEntityId),
+      deviceClassAttribute: Value(deviceClassAttribute),
+      getNotifications: Value(getNotificationsBoolean),
+    );
+
+    await GetIt.instance<DatabaseManager>().database.into(GetIt.instance<DatabaseManager>().database.registeredSmartPlugs).insert(newSmartPlug);
+  }
+
   Future<void> updateRegisteredSmartPlug(
       RegisteredSmartPlug registeredSmartPlug,
       String homeAssistantEntityId,
@@ -32,13 +42,12 @@ class RegisteredSmartPlugsRepository {
             getNotifications: Value(getNotificationsBoolean)));
   }
 
-  Future deleteRegisteredSmartPlug(
+  Future<void> deleteRegisteredSmartPlug(
       RegisteredSmartPlug registeredSmartPlug) async {
-    return GetIt.instance<DatabaseManager>()
+    await (GetIt.instance<DatabaseManager>()
         .database
         .delete(GetIt.instance<DatabaseManager>().database.registeredSmartPlugs)
       ..where((smartPlug) =>
-          smartPlug.smartPlugId.equals(registeredSmartPlug.smartPlugId))
-      ..go();
+          smartPlug.smartPlugId.equals(registeredSmartPlug.smartPlugId))).go();
   }
 }
