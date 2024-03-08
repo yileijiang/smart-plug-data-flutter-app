@@ -59,7 +59,15 @@ class SmartPlugEntriesListWidget extends StatelessWidget {
               ),
             );
           } else if (state is SmartPlugEntriesError) {
-            return Text('Error: ${state.errorMessage}');
+            return Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Text(
+                  'Error: ${state.errorMessage}',
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            );
           } else if (state is SmartPlugEntriesEmpty) {
             return const Text('No entries yet.');
           } else {

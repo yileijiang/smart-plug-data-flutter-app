@@ -5,9 +5,7 @@ import 'package:smart_plug_data/blocs/access_token_bloc/access_token_event.dart'
 import 'package:smart_plug_data/blocs/access_token_bloc/access_token_state.dart';
 
 class AccessTokenWidget extends StatelessWidget {
-  final String accessToken;
-
-  const AccessTokenWidget({super.key, required this.accessToken});
+  const AccessTokenWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,12 +21,13 @@ class AccessTokenWidget extends StatelessWidget {
         ),
         BlocBuilder<AccessTokenBloc, AccessTokenState>(
           builder: (context, state) {
-            if (state is AccessTokenReadOnly) {
+            if (state is AccessTokenLoaded) {
               return Row(
                 children: [
                   Expanded(
                     child: TextField(
-                      controller: TextEditingController(text: accessToken),
+                      controller:
+                          TextEditingController(text: state.accessToken),
                       readOnly: true,
                       autofocus: false,
                       canRequestFocus: false,
@@ -47,8 +46,8 @@ class AccessTokenWidget extends StatelessWidget {
                           icon: const Icon(Icons.edit),
                           onPressed: () {
                             context.read<AccessTokenBloc>().add(
-                              EditAccessToken(accessToken),
-                            );
+                                  EditAccessToken(state.accessToken),
+                                );
                           },
                         ),
                       ),
@@ -61,7 +60,8 @@ class AccessTokenWidget extends StatelessWidget {
                 children: [
                   Expanded(
                     child: TextField(
-                      controller: textEditingController = TextEditingController(text: state.accessToken),
+                      controller: textEditingController =
+                          TextEditingController(text: state.accessToken),
                       readOnly: false,
                       autofocus: true,
                       canRequestFocus: true,
@@ -80,8 +80,8 @@ class AccessTokenWidget extends StatelessWidget {
                           icon: const Icon(Icons.done),
                           onPressed: () {
                             context.read<AccessTokenBloc>().add(
-                              SaveAccessToken(textEditingController.text),
-                            );
+                                  SaveAccessToken(textEditingController.text),
+                                );
                           },
                         ),
                       ),

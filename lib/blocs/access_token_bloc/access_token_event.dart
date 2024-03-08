@@ -1,5 +1,8 @@
 abstract class AccessTokenEvent {}
 
+class LoadAccessToken extends AccessTokenEvent {
+}
+
 class EditAccessToken extends AccessTokenEvent {
   String accessToken;
 

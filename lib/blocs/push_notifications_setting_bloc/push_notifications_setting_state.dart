@@ -1,8 +1,10 @@
 abstract class PushNotificationsSettingState {}
 
-class PushNotificationsSettingInitialState extends PushNotificationsSettingState {
-
+class PushNotificationsSettingLoading extends PushNotificationsSettingState {
 }
 
-class PushNotificationsSettingUpdated extends PushNotificationsSettingState {
+class PushNotificationsSettingLoaded extends PushNotificationsSettingState {
+  bool pushNotificationsBool;
+
+  PushNotificationsSettingLoaded(this.pushNotificationsBool);
 }

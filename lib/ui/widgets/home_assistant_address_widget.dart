@@ -4,9 +4,8 @@ import 'package:smart_plug_data/blocs/home_assistant_address_bloc/home_assistant
 import 'package:smart_plug_data/blocs/home_assistant_address_bloc/home_assistant_address_event.dart';
 import 'package:smart_plug_data/blocs/home_assistant_address_bloc/home_assistant_address_state.dart';
 class HomeAssistantAddressWidget extends StatelessWidget {
-  final String homeAssistantAddress;
 
-  const HomeAssistantAddressWidget({super.key, required this.homeAssistantAddress});
+  const HomeAssistantAddressWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,12 +21,12 @@ class HomeAssistantAddressWidget extends StatelessWidget {
         ),
         BlocBuilder<HomeAssistantAddressBloc, HomeAssistantAddressState>(
           builder: (context, state) {
-            if (state is HomeAssistantAddressReadOnly) {
+            if (state is HomeAssistantAddressLoaded) {
               return Row(
                 children: [
                   Expanded(
                     child: TextField(
-                      controller: TextEditingController(text: homeAssistantAddress),
+                      controller: TextEditingController(text: state.homeAssistantAddress),
                       readOnly: true,
                       autofocus: false,
                       canRequestFocus: false,
@@ -46,7 +45,7 @@ class HomeAssistantAddressWidget extends StatelessWidget {
                           icon: const Icon(Icons.edit),
                           onPressed: () {
                             context.read<HomeAssistantAddressBloc>().add(
-                              EditHomeAssistantAddress(homeAssistantAddress),
+                              EditHomeAssistantAddress(state.homeAssistantAddress),
                             );
                           },
                         ),

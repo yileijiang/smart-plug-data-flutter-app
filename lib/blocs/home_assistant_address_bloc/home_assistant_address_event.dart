@@ -1,5 +1,8 @@
 abstract class HomeAssistantAddressEvent {}
 
+class LoadHomeAssistantAddress extends HomeAssistantAddressEvent {
+}
+
 class EditHomeAssistantAddress extends HomeAssistantAddressEvent {
   String homeAssistantAddress;
 

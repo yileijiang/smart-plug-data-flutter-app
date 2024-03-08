@@ -12,6 +12,7 @@ import 'package:smart_plug_data/data/database/database.dart';
 import 'package:smart_plug_data/utils/constants.dart';
 
 
+
 class DatabaseManager {
   late EncryptedDatabase database;
 
@@ -24,12 +25,12 @@ class DatabaseManager {
     database = EncryptedDatabase(await isolate.connect(singleClientMode: false));
 
     IsolateNameServer.registerPortWithName(
-      isolate.connectPort, isolateConnectPortName
+      isolate.connectPort, Constants.isolateConnectPortName
     );
   }
 
   Future<void> connectToDatabaseIsolate() async {
-    SendPort? isolateConnectPort = IsolateNameServer.lookupPortByName(isolateConnectPortName);
+    SendPort? isolateConnectPort = IsolateNameServer.lookupPortByName(Constants.isolateConnectPortName);
 
     if (isolateConnectPort != null) {
       final isolate = DriftIsolate.fromConnectPort(isolateConnectPort);

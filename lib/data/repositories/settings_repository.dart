@@ -40,4 +40,16 @@ class SettingsRepository {
       await sharedPreferencesManager.deleteString('access_token');
     }
   }
+
+  Future<bool> getConnectionStatus() async {
+    final connectionStatus =
+    await sharedPreferencesManager.getString('connection_status');
+    bool connectionStatusBool = connectionStatus == 'true';
+    return connectionStatusBool;
+  }
+
+  Future<void> saveConnectionStatus(bool connectionStatusBool) async {
+    await sharedPreferencesManager.saveString(
+        'connection_status', connectionStatusBool.toString());
+  }
 }

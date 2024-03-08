@@ -30,7 +30,7 @@ class HomePage extends StatelessWidget {
             ),
           ),
         ],
-        child: Scaffold(
+        child: const Scaffold(
           appBar: MenuAppBarWidget(
             title: 'Smart Plug Data Entries',
           ),

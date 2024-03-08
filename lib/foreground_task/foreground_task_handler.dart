@@ -1,9 +1,11 @@
+import 'dart:io';
 import 'dart:isolate';
 
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:get_it/get_it.dart';
 import 'package:smart_plug_data/data/database/database_manager.dart';
 import 'package:smart_plug_data/di/dependencies.dart';
+import 'package:smart_plug_data/services/home_assistant_websocket_api_service.dart';
 
 
 @pragma('vm:entry-point')
@@ -12,33 +14,31 @@ void startCallback() {
 }
 
 class ForegroundTaskHandler extends TaskHandler {
-  SendPort? _sendPort;
 
   @override
   void onStart(DateTime timestamp, SendPort? sendPort) async {
-    _sendPort = sendPort;
 
     Dependencies.setupDependencies();
 
     await GetIt.instance<DatabaseManager>().openDatabaseIsolate();
 
+    GetIt.instance<HomeAssistantWebSocketAPIService>().setSendPort(sendPort!);
+
+    await GetIt.instance<HomeAssistantWebSocketAPIService>().establishAPIConnection();
+
+    await GetIt.instance<HomeAssistantWebSocketAPIService>().listenToChannelMessages();
+    await GetIt.instance<HomeAssistantWebSocketAPIService>().authenticateWithAccessToken();
+
+    GetIt.instance<HomeAssistantWebSocketAPIService>().subscribeToEvents();
+
+    /*
     var allEntries = await GetIt.instance<DatabaseManager>().database.select(GetIt.instance<DatabaseManager>().database.smartPlugEntries).get();
     print('items in database from FOREGROUND TASK: $allEntries');
-    /*
-    List<SmartPlugEntry> allEntries =
-        await database.select(database.smartPlugEntries).get();
-    print('items in database from FOREGROUND TASK: $allEntries');
-
      */
-
-    _sendPort?.send('done');
   }
 
-  // Called every [interval] milliseconds in [ForegroundTaskOptions].
   @override
   void onRepeatEvent(DateTime timestamp, SendPort? sendPort) async {
-    // Send data to the main isolate.
-    // sendPort?.send(timestamp);
   }
 
   // Called when the notification button on the Android platform is pressed.
@@ -61,6 +61,7 @@ class ForegroundTaskHandler extends TaskHandler {
     // it will usually be necessary to send a message through the send port to
     // signal it to restore state when the app is already started.
     FlutterForegroundTask.launchApp("/resume-route");
-    _sendPort?.send('onNotificationPressed');
+    // _sendPort?.send('onNotificationPressed');
   }
+
 }

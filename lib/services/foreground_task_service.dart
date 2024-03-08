@@ -1,7 +1,11 @@
+import 'dart:isolate';
+
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:smart_plug_data/foreground_task/foreground_task_handler.dart';
 
 class ForegroundTaskService {
+
+  ReceivePort? _receivePort;
 
    void initForegroundTask() {
     FlutterForegroundTask.init(
@@ -34,17 +38,34 @@ class ForegroundTaskService {
     );
   }
 
-   Future<bool> startForegroundTask() async {
-    return await FlutterForegroundTask.startService(
+   Future<void> startForegroundTask() async {
+     await FlutterForegroundTask.startService(
       notificationTitle: 'Foreground Service is running',
       notificationText: 'Tap to return to the app',
       callback: startCallback,
     );
+
+     _registerReceivePort();
   }
 
-   Future<bool> stopForegroundTask() {
-      return FlutterForegroundTask.stopService();
+   Future<void> stopForegroundTask() async {
+      await FlutterForegroundTask.stopService();
+      _closeReceivePort();
   }
+
+  ReceivePort? getReceivePort() {
+    return _receivePort;
+  }
+
+  _registerReceivePort() {
+    _receivePort = FlutterForegroundTask.receivePort;
+  }
+
+  _closeReceivePort() {
+    _receivePort?.close();
+    _receivePort = null;
+  }
+
 
 
 

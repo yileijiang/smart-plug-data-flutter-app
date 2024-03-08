@@ -65,7 +65,15 @@ class RegisteredSmartPlugsListWidget extends StatelessWidget {
               ),
             );
           } else if (state is RegisteredSmartPlugsError) {
-            return Text('Error: ${state.errorMessage}');
+            return Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Text(
+                  'Error: ${state.errorMessage}',
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            );
           } else if (state is RegisteredSmartPlugsEmpty) {
             return const Text('No smart plugs registered yet.');
           } else {

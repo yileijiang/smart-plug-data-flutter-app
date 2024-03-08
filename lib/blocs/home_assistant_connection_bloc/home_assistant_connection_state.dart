@@ -1,11 +1,9 @@
 abstract class HomeAssistantConnectionState {}
 
-class ConnectionEstablished extends HomeAssistantConnectionState {
+class ConnectionStatusLoading extends HomeAssistantConnectionState {}
 
-}
+class NoConnection extends HomeAssistantConnectionState {}
 
-class Connecting extends HomeAssistantConnectionState {
-}
+class Connecting extends HomeAssistantConnectionState {}
 
-class NoConnection extends HomeAssistantConnectionState {
-}
+class Connected extends HomeAssistantConnectionState {}
