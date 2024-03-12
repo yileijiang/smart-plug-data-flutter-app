@@ -3,12 +3,17 @@ import 'dart:core';
 import 'dart:io';
 import 'dart:isolate';
 import 'package:get_it/get_it.dart';
+import 'package:smart_plug_data/data/repositories/registered_smart_plugs_repository.dart';
 import 'package:smart_plug_data/data/repositories/settings_repository.dart';
+import 'package:smart_plug_data/services/message_processing_service/handlers/message_handler.dart';
+import 'package:smart_plug_data/services/message_processing_service/message_handler_manager.dart';
 import 'package:smart_plug_data/utils/constants.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class HomeAssistantWebSocketAPIService {
   final settingsRepository = GetIt.instance<SettingsRepository>();
+  final registeredSmartPlugsRepository =
+      GetIt.instance<RegisteredSmartPlugsRepository>();
   late SendPort _sendPort;
 
   late final WebSocketChannel channel;
@@ -39,8 +44,10 @@ class HomeAssistantWebSocketAPIService {
 
   Future<void> listenToChannelMessages() async {
     channel.stream.listen((message) async {
+      print(message);
       Map<String, dynamic> messageMap = jsonDecode(message);
       _checkAuthenticationValid(messageMap);
+      _processMessage(messageMap);
     });
   }
 
@@ -55,7 +62,7 @@ class HomeAssistantWebSocketAPIService {
     channel.sink.add(Constants.eventsSubscriptionMessage);
   }
 
-  void _checkAuthenticationValid(message) {
+  void _checkAuthenticationValid(Map<String, dynamic> message) {
     String authenticationString = message['type'];
     if (authenticationString == 'auth_invalid') {
       _sendPort.send({'auth_error': 'Error: invalid access token'});
@@ -63,4 +70,10 @@ class HomeAssistantWebSocketAPIService {
       _sendPort.send({'auth_ok': 'Connected to Home Assistant API'});
     }
   }
+
+  Future<void> _processMessage(Map<String, dynamic> message) async {
+    MessageHandler messageHandlerChain = GetIt.instance<MessageHandlerManager>().setUpHandlerChain();
+    messageHandlerChain.handle(message, null);
+  }
+
 }

@@ -361,7 +361,7 @@ class $RegisteredSmartPlugsTable extends RegisteredSmartPlugs
       GeneratedColumn<String>('home_assistant_entity_id', aliasedName, false,
           type: DriftSqlType.string,
           requiredDuringInsert: true,
-          $customConstraints: 'UNIQUE');
+          defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'));
   static const VerificationMeta _deviceClassAttributeMeta =
       const VerificationMeta('deviceClassAttribute');
   @override

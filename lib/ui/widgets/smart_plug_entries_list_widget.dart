@@ -15,65 +15,72 @@ class SmartPlugEntriesListWidget extends StatelessWidget {
     return BlocListener<SmartPlugEntryDialogBloc, SmartPlugEntryDialogState>(
       listener: (context, state) {
         if (state is SmartPlugEntryUpdated || state is SmartPlugEntryDeleted) {
-          BlocProvider.of<SmartPlugEntriesBloc>(context).add(FetchSmartPlugEntries());
+          BlocProvider.of<SmartPlugEntriesBloc>(context)
+              .add(FetchSmartPlugEntries());
         }
       },
-      child: BlocBuilder<SmartPlugEntriesBloc, SmartPlugEntriesState>(
-        builder: (context, state) {
-          if (state is SmartPlugEntriesLoading) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is SmartPlugEntriesLoaded) {
-            return Expanded(
-              child: ListView.separated(
-                itemCount: state.entries.length,
-                separatorBuilder: (context, index) => const Divider(),
-                itemBuilder: (context, index) {
-                  final entry = state.entries[index];
-                  return ListTile(
-                      title: Text(
-                        '${entry.homeAssistantEntityId}'
-                        '\n${entry.timeStamp}',
-                      ),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'State: ${entry.state}',
-                          ),
-                          Text(
-                            'Device Class: ${entry.deviceClass}',
-                          ),
-                          Text(
-                            'Label: ${entry.label}',
-                          ),
-                        ],
-                      ),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.edit),
-                        onPressed: () {
-                          BlocProvider.of<SmartPlugEntryDialogBloc>(context)
-                              .add(OpenSmartPlugEntryDialog(entry));
-                        },
-                      ));
-                },
-              ),
-            );
-          } else if (state is SmartPlugEntriesError) {
-            return Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Text(
-                  'Error: ${state.errorMessage}',
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            );
-          } else if (state is SmartPlugEntriesEmpty) {
-            return const Text('No entries yet.');
-          } else {
-            return const SizedBox(); // Initial state
-          }
-        },
+      child: Expanded(
+        child: RefreshIndicator(
+          onRefresh: () async {
+            BlocProvider.of<SmartPlugEntriesBloc>(context)
+                .add(FetchSmartPlugEntries());
+          },
+          child: BlocBuilder<SmartPlugEntriesBloc, SmartPlugEntriesState>(
+            builder: (context, state) {
+              if (state is SmartPlugEntriesLoading) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (state is SmartPlugEntriesLoaded) {
+                return ListView.separated(
+                  itemCount: state.entries.length,
+                  separatorBuilder: (context, index) => const Divider(),
+                  itemBuilder: (context, index) {
+                    final entry = state.entries[index];
+                    return ListTile(
+                        title: Text(
+                          '${entry.homeAssistantEntityId}'
+                          '\n${entry.timeStamp}',
+                        ),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'State: ${entry.state}',
+                            ),
+                            Text(
+                              'Device Class: ${entry.deviceClass}',
+                            ),
+                            Text(
+                              'Label: ${entry.label}',
+                            ),
+                          ],
+                        ),
+                        trailing: IconButton(
+                          icon: const Icon(Icons.edit),
+                          onPressed: () {
+                            BlocProvider.of<SmartPlugEntryDialogBloc>(context)
+                                .add(OpenSmartPlugEntryDialog(entry));
+                          },
+                        ));
+                  },
+                );
+              } else if (state is SmartPlugEntriesError) {
+                return Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Text(
+                      'Error: ${state.errorMessage}',
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                );
+              } else if (state is SmartPlugEntriesEmpty) {
+                return const Text('No entries yet.');
+              } else {
+                return const SizedBox(); // Initial state
+              }
+            },
+          ),
+        ),
       ),
     );
   }

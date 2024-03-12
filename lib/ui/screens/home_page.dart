@@ -30,16 +30,28 @@ class HomePage extends StatelessWidget {
             ),
           ),
         ],
-        child: const Scaffold(
+        child: Scaffold(
           appBar: MenuAppBarWidget(
             title: 'Smart Plug Data Entries',
           ),
-          body: Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+          body: Scaffold(
+            body: Column(
               children: <Widget>[
-                SmartPlugEntriesListWidget(),
-                SmartPlugEntryDialogWidget(),
+                Container(
+                  color: Colors.blue,
+                  alignment: Alignment.center,
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Pull Down To Refresh',
+                        style: TextStyle(fontSize: 18, color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ),
+                const SmartPlugEntriesListWidget(),
+                const SmartPlugEntryDialogWidget(),
 
               ],
             ),

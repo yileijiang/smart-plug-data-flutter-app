@@ -17,6 +17,17 @@ class SmartPlugEntriesRepository {
     return smartPlugEntriesEntries;
   }
 
+  Future<void> createSmartPlugEntry(String homeAssistantEntityId , DateTime timeStamp, double state, String deviceClass) async {
+    final newSmartPlugEntry = SmartPlugEntriesCompanion(
+      homeAssistantEntityId: Value(homeAssistantEntityId),
+      timeStamp: Value(timeStamp),
+      state: Value(state),
+      deviceClass: Value(deviceClass)
+    );
+
+    await GetIt.instance<DatabaseManager>().database.into(GetIt.instance<DatabaseManager>().database.smartPlugEntries).insert(newSmartPlugEntry);
+  }
+
   Future<void> updateSmartPlugEntry(
       SmartPlugEntry smartPlugEntry, String label) async {
     await (GetIt.instance<DatabaseManager>()

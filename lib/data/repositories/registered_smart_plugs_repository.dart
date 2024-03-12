@@ -17,6 +17,18 @@ class RegisteredSmartPlugsRepository {
     return registeredSmartPlugs;
   }
 
+  Future<RegisteredSmartPlug?> getRegisteredSmartPlugByHomeAssistantEntityId(String homeAssistantEntityId) async {
+    RegisteredSmartPlug? registeredSmartPlug =
+    await (GetIt.instance<DatabaseManager>().database.select(
+        GetIt.instance<DatabaseManager>()
+            .database
+            .registeredSmartPlugs)..where((smartPlug) =>
+        smartPlug.homeAssistantEntityId.equals(homeAssistantEntityId)))
+        .getSingleOrNull();
+
+    return registeredSmartPlug;
+  }
+
   Future<void> createRegisteredSmartPlug(String homeAssistantEntityId , String deviceClassAttribute, bool getNotificationsBoolean) async {
     final newSmartPlug = RegisteredSmartPlugsCompanion(
       homeAssistantEntityId: Value(homeAssistantEntityId),

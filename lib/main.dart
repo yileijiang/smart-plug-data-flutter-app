@@ -8,8 +8,8 @@ import 'package:smart_plug_data/services/foreground_task_service.dart';
 import 'package:smart_plug_data/ui/screens/home_page.dart';
 
 import 'data/database/database.dart';
-
-
+// access token
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI0MzQ3MjFjZjJjNTI0ZDMyOTI1YzNkYTNmYmFkZDg0OCIsImlhdCI6MTcxMDA4OTI3NCwiZXhwIjoyMDI1NDQ5Mjc0fQ.x7es_WKHpfaFGf05R2u2uO6i2LY2sAR8AfiRLOqU3Mw
 /*
   await database.into(database.smartPlugEntries).insert(SmartPlugEntriesCompanion.insert(
     homeAssistantEntityId: 'entityId',
@@ -74,7 +74,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
       home: const HomePage(),

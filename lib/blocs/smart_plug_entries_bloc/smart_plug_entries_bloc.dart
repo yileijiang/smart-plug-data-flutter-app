@@ -14,7 +14,6 @@ class SmartPlugEntriesBloc
 
   void _mapFetchSmartPlugEntriesEventToState(
       FetchSmartPlugEntries event, Emitter<SmartPlugEntriesState> emit) async {
-    emit(SmartPlugEntriesLoading());
 
     try {
       final smartPlugEntries =

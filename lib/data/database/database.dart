@@ -14,7 +14,7 @@ class SmartPlugEntries extends Table {
 
 class RegisteredSmartPlugs extends Table {
   IntColumn get smartPlugId => integer().autoIncrement()();
-  TextColumn get homeAssistantEntityId => text().named('home_assistant_entity_id').customConstraint('UNIQUE')();
+  TextColumn get homeAssistantEntityId => text().named('home_assistant_entity_id').unique()();
   TextColumn get deviceClassAttribute => text().named('device_class_attribute')();
   BoolColumn get getNotifications => boolean().named('get_notifications').withDefault(const Constant(false))();
 }

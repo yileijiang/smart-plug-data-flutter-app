@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:isolate';
 
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
@@ -6,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:smart_plug_data/data/database/database_manager.dart';
 import 'package:smart_plug_data/di/dependencies.dart';
 import 'package:smart_plug_data/services/home_assistant_websocket_api_service.dart';
+import 'package:smart_plug_data/services/notification_service.dart';
 
 
 @pragma('vm:entry-point')
@@ -21,20 +21,13 @@ class ForegroundTaskHandler extends TaskHandler {
     Dependencies.setupDependencies();
 
     await GetIt.instance<DatabaseManager>().openDatabaseIsolate();
+    GetIt.instance<NotificationService>().init();
 
     GetIt.instance<HomeAssistantWebSocketAPIService>().setSendPort(sendPort!);
-
     await GetIt.instance<HomeAssistantWebSocketAPIService>().establishAPIConnection();
-
     await GetIt.instance<HomeAssistantWebSocketAPIService>().listenToChannelMessages();
     await GetIt.instance<HomeAssistantWebSocketAPIService>().authenticateWithAccessToken();
-
     GetIt.instance<HomeAssistantWebSocketAPIService>().subscribeToEvents();
-
-    /*
-    var allEntries = await GetIt.instance<DatabaseManager>().database.select(GetIt.instance<DatabaseManager>().database.smartPlugEntries).get();
-    print('items in database from FOREGROUND TASK: $allEntries');
-     */
   }
 
   @override
