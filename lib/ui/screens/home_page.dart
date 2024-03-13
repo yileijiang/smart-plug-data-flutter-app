@@ -26,12 +26,12 @@ class HomePage extends StatelessWidget {
           BlocProvider<SmartPlugEntryDialogBloc>(
             create: (context) => SmartPlugEntryDialogBloc(
               smartPlugEntriesRepository:
-              context.read<SmartPlugEntriesRepository>(),
+                  context.read<SmartPlugEntriesRepository>(),
             ),
           ),
         ],
         child: Scaffold(
-          appBar: MenuAppBarWidget(
+          appBar: const MenuAppBarWidget(
             title: 'Smart Plug Data Entries',
           ),
           body: Scaffold(
@@ -52,17 +52,14 @@ class HomePage extends StatelessWidget {
                 ),
                 const SmartPlugEntriesListWidget(),
                 const SmartPlugEntryDialogWidget(),
-
               ],
             ),
           ),
-          /*
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-
-       */
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {},
+            tooltip: 'Share Data',
+            child: const Icon(Icons.share),
+          ),
         ),
       ),
     );

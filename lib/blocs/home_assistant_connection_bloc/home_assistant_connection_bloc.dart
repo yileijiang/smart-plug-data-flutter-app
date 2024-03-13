@@ -43,7 +43,6 @@ class HomeAssistantConnectionBloc
   }
 
   Future<void> _mapEstablishConnectionToHomeAssistantAPIEventToState(
-      // TODO: navigate to other page and back while connecting throws error
       EstablishConnectionToHomeAssistantAPI event,
       Emitter<HomeAssistantConnectionState> emit) async {
     emit(Connecting());
@@ -66,6 +65,8 @@ class HomeAssistantConnectionBloc
           String successMessage = message['auth_ok'];
           add(UpdateConnectionStatusToConnected());
           ToastUtils.showSuccessToast(successMessage);
+        } else if (message.containsKey('connection_closed')) {
+          add(TerminateConnectionToHomeAssistantAPI());
         }
       }
     });
@@ -73,7 +74,6 @@ class HomeAssistantConnectionBloc
 
   void _mapUpdateConnectionStatusToConnectedEventToState(UpdateConnectionStatusToConnected event,
       Emitter<HomeAssistantConnectionState> emit) async {
-    await settingsRepository.saveConnectionStatus(true);
     emit(Connected());
   }
 

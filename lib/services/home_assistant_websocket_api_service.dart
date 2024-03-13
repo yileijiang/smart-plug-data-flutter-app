@@ -5,6 +5,7 @@ import 'dart:isolate';
 import 'package:get_it/get_it.dart';
 import 'package:smart_plug_data/data/repositories/registered_smart_plugs_repository.dart';
 import 'package:smart_plug_data/data/repositories/settings_repository.dart';
+import 'package:smart_plug_data/services/foreground_task_service.dart';
 import 'package:smart_plug_data/services/message_pipeline_service/handlers/message_handler.dart';
 import 'package:smart_plug_data/services/message_pipeline_service/message_pipeline_manager.dart';
 import 'package:smart_plug_data/utils/constants.dart';
@@ -34,11 +35,14 @@ class HomeAssistantWebSocketAPIService {
       await channel.ready;
     } on ArgumentError catch (e) {
       _sendPort.send({'connection_error': 'Error: ${e.message.toString()}'});
+      await closeForegroundTask();
     } on SocketException catch (e) {
       _sendPort.send({'connection_error': 'Error: ${e.message}'});
+      await closeForegroundTask();
     } catch (e) {
       _sendPort
           .send({'connection_error': 'Error connecting to Home Assistant API'});
+      await closeForegroundTask();
     }
   }
 
@@ -62,12 +66,21 @@ class HomeAssistantWebSocketAPIService {
     channel.sink.add(Constants.eventsSubscriptionMessage);
   }
 
-  void _checkAuthenticationValid(Map<String, dynamic> message) {
+
+  closeForegroundTask() async {
+    await settingsRepository.saveConnectionStatus(false);
+    GetIt.instance<ForegroundTaskService>().stopForegroundTask();
+    _sendPort.send({'connection_closed': 'Connection closed'});
+  }
+
+  Future<void> _checkAuthenticationValid(Map<String, dynamic> message) async {
     String authenticationString = message['type'];
     if (authenticationString == 'auth_invalid') {
       _sendPort.send({'auth_error': 'Error: invalid access token'});
+      await closeForegroundTask();
     } else if (authenticationString == 'auth_ok') {
       _sendPort.send({'auth_ok': 'Connected to Home Assistant API'});
+      await settingsRepository.saveConnectionStatus(true);
     }
   }
 

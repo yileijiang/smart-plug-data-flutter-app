@@ -42,8 +42,7 @@ class ForegroundTaskHandler extends TaskHandler {
 
   @override
   Future<void> onNotificationButtonPressed(String id) async {
-    await GetIt.instance<SettingsRepository>().saveConnectionStatus(false);
-    GetIt.instance<ForegroundTaskService>().stopForegroundTask();
+    GetIt.instance<HomeAssistantWebSocketAPIService>().closeForegroundTask();
   }
 
   @override
