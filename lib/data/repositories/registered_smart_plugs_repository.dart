@@ -6,11 +6,12 @@ import 'package:smart_plug_data/data/database/database_manager.dart';
 import 'package:smart_plug_data/data/database/database.dart';
 
 class RegisteredSmartPlugsRepository {
+  final _database = GetIt.instance<DatabaseManager>().database;
+
+
   Future<List<RegisteredSmartPlug>> getRegisteredSmartPlugs() async {
     List<RegisteredSmartPlug> registeredSmartPlugs =
-        await (GetIt.instance<DatabaseManager>().database.select(
-                GetIt.instance<DatabaseManager>()
-                    .database
+        await (_database.select(_database
                     .registeredSmartPlugs))
             .get();
 
@@ -19,9 +20,7 @@ class RegisteredSmartPlugsRepository {
 
   Future<RegisteredSmartPlug?> getRegisteredSmartPlugByHomeAssistantEntityId(String homeAssistantEntityId) async {
     RegisteredSmartPlug? registeredSmartPlug =
-    await (GetIt.instance<DatabaseManager>().database.select(
-        GetIt.instance<DatabaseManager>()
-            .database
+    await (_database.select(_database
             .registeredSmartPlugs)..where((smartPlug) =>
         smartPlug.homeAssistantEntityId.equals(homeAssistantEntityId)))
         .getSingleOrNull();
@@ -36,7 +35,7 @@ class RegisteredSmartPlugsRepository {
       getNotifications: Value(getNotificationsBoolean),
     );
 
-    await GetIt.instance<DatabaseManager>().database.into(GetIt.instance<DatabaseManager>().database.registeredSmartPlugs).insert(newSmartPlug);
+    await _database.into(_database.registeredSmartPlugs).insert(newSmartPlug);
   }
 
   Future<void> updateRegisteredSmartPlug(
@@ -44,8 +43,7 @@ class RegisteredSmartPlugsRepository {
       String homeAssistantEntityId,
       String deviceClassAttribute,
       bool getNotificationsBoolean) async {
-    await (GetIt.instance<DatabaseManager>().database.update(
-            GetIt.instance<DatabaseManager>().database.registeredSmartPlugs)
+    await (_database.update(_database.registeredSmartPlugs)
           ..where((smartPlug) =>
               smartPlug.smartPlugId.equals(registeredSmartPlug.smartPlugId)))
         .write(RegisteredSmartPlugsCompanion(
@@ -56,9 +54,8 @@ class RegisteredSmartPlugsRepository {
 
   Future<void> deleteRegisteredSmartPlug(
       RegisteredSmartPlug registeredSmartPlug) async {
-    await (GetIt.instance<DatabaseManager>()
-        .database
-        .delete(GetIt.instance<DatabaseManager>().database.registeredSmartPlugs)
+    await (_database
+        .delete(_database.registeredSmartPlugs)
       ..where((smartPlug) =>
           smartPlug.smartPlugId.equals(registeredSmartPlug.smartPlugId))).go();
   }

@@ -4,10 +4,11 @@ import 'package:smart_plug_data/data/database/database_manager.dart';
 import 'package:smart_plug_data/data/database/database.dart';
 
 class SmartPlugEntriesRepository {
+  final _database = GetIt.instance<DatabaseManager>().database;
+
   Future<List<SmartPlugEntry>> getSmartPlugEntries() async {
     List<SmartPlugEntry> smartPlugEntriesEntries =
-        await (GetIt.instance<DatabaseManager>().database.select(
-                GetIt.instance<DatabaseManager>().database.smartPlugEntries)
+        await (_database.select(_database.smartPlugEntries)
               ..orderBy([
                 (entry) => OrderingTerm(
                     expression: entry.timeStamp, mode: OrderingMode.desc)
@@ -19,9 +20,7 @@ class SmartPlugEntriesRepository {
 
   Future<SmartPlugEntry?> getSmartPlugEntryByEntryId(int entryId) async {
     SmartPlugEntry? smartPlugEntry =
-    await (GetIt.instance<DatabaseManager>().database.select(
-        GetIt.instance<DatabaseManager>()
-            .database
+    await (_database.select(_database
             .smartPlugEntries)..where((entry) =>
         entry.entryId.equals(entryId)))
         .getSingleOrNull();
@@ -37,22 +36,20 @@ class SmartPlugEntriesRepository {
       deviceClass: Value(deviceClass)
     );
 
-    return await GetIt.instance<DatabaseManager>().database.into(GetIt.instance<DatabaseManager>().database.smartPlugEntries).insert(newSmartPlugEntry);
+    return await _database.into(_database.smartPlugEntries).insert(newSmartPlugEntry);
   }
 
   Future<void> updateSmartPlugEntry(
       SmartPlugEntry smartPlugEntry, String label) async {
-    await (GetIt.instance<DatabaseManager>()
-            .database
-            .update(GetIt.instance<DatabaseManager>().database.smartPlugEntries)
+    await (_database
+            .update(_database.smartPlugEntries)
           ..where((entry) => entry.entryId.equals(smartPlugEntry.entryId)))
         .write(SmartPlugEntriesCompanion(label: Value(label)));
   }
 
   Future<void> deleteSmartPlugEntry(SmartPlugEntry smartPlugEntry) async {
-    await (GetIt.instance<DatabaseManager>()
-        .database
-        .delete(GetIt.instance<DatabaseManager>().database.smartPlugEntries)
+    await (_database
+        .delete(_database.smartPlugEntries)
       ..where((entry) => entry.entryId.equals(smartPlugEntry.entryId)))
       .go();
   }

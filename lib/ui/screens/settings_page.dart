@@ -26,6 +26,10 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    BlocProvider.of<HomeAssistantConnectionBloc>(context)
+        .add(LoadConnectionStatus());
+
     return RepositoryProvider<SettingsRepository>(
       create: (context) => SettingsRepository(),
       child: MultiBlocProvider(
@@ -47,11 +51,6 @@ class SettingsPage extends StatelessWidget {
             create: (context) => NotificationsSettingBloc(
               settingsRepository: context.read<SettingsRepository>(),
             )..add(LoadNotificationsSetting()),
-          ),
-          BlocProvider<HomeAssistantConnectionBloc>(
-            create: (context) => HomeAssistantConnectionBloc(
-              settingsRepository: context.read<SettingsRepository>(),
-            )..add(LoadConnectionStatus()),
           ),
         ],
         child: Scaffold(

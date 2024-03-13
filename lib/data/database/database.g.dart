@@ -622,16 +622,301 @@ class RegisteredSmartPlugsCompanion
   }
 }
 
+class $SettingsTable extends Settings with TableInfo<$SettingsTable, Setting> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $SettingsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _homeAssistantAddressMeta =
+      const VerificationMeta('homeAssistantAddress');
+  @override
+  late final GeneratedColumn<String> homeAssistantAddress =
+      GeneratedColumn<String>('home_assistant_address', aliasedName, false,
+          type: DriftSqlType.string,
+          requiredDuringInsert: false,
+          defaultValue: const Constant(''));
+  static const VerificationMeta _accessTokenMeta =
+      const VerificationMeta('accessToken');
+  @override
+  late final GeneratedColumn<String> accessToken = GeneratedColumn<String>(
+      'access_token', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      defaultValue: const Constant(''));
+  static const VerificationMeta _notificationsSettingMeta =
+      const VerificationMeta('notificationsSetting');
+  @override
+  late final GeneratedColumn<bool> notificationsSetting = GeneratedColumn<bool>(
+      'notifications_setting', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("notifications_setting" IN (0, 1))'),
+      defaultValue: const Constant(false));
+  static const VerificationMeta _connectionStatusMeta =
+      const VerificationMeta('connectionStatus');
+  @override
+  late final GeneratedColumn<bool> connectionStatus = GeneratedColumn<bool>(
+      'connection_status', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("connection_status" IN (0, 1))'),
+      defaultValue: const Constant(false));
+  @override
+  List<GeneratedColumn> get $columns => [
+        homeAssistantAddress,
+        accessToken,
+        notificationsSetting,
+        connectionStatus
+      ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'settings';
+  @override
+  VerificationContext validateIntegrity(Insertable<Setting> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('home_assistant_address')) {
+      context.handle(
+          _homeAssistantAddressMeta,
+          homeAssistantAddress.isAcceptableOrUnknown(
+              data['home_assistant_address']!, _homeAssistantAddressMeta));
+    }
+    if (data.containsKey('access_token')) {
+      context.handle(
+          _accessTokenMeta,
+          accessToken.isAcceptableOrUnknown(
+              data['access_token']!, _accessTokenMeta));
+    }
+    if (data.containsKey('notifications_setting')) {
+      context.handle(
+          _notificationsSettingMeta,
+          notificationsSetting.isAcceptableOrUnknown(
+              data['notifications_setting']!, _notificationsSettingMeta));
+    }
+    if (data.containsKey('connection_status')) {
+      context.handle(
+          _connectionStatusMeta,
+          connectionStatus.isAcceptableOrUnknown(
+              data['connection_status']!, _connectionStatusMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => const {};
+  @override
+  Setting map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Setting(
+      homeAssistantAddress: attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}home_assistant_address'])!,
+      accessToken: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}access_token'])!,
+      notificationsSetting: attachedDatabase.typeMapping.read(
+          DriftSqlType.bool, data['${effectivePrefix}notifications_setting'])!,
+      connectionStatus: attachedDatabase.typeMapping.read(
+          DriftSqlType.bool, data['${effectivePrefix}connection_status'])!,
+    );
+  }
+
+  @override
+  $SettingsTable createAlias(String alias) {
+    return $SettingsTable(attachedDatabase, alias);
+  }
+}
+
+class Setting extends DataClass implements Insertable<Setting> {
+  final String homeAssistantAddress;
+  final String accessToken;
+  final bool notificationsSetting;
+  final bool connectionStatus;
+  const Setting(
+      {required this.homeAssistantAddress,
+      required this.accessToken,
+      required this.notificationsSetting,
+      required this.connectionStatus});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['home_assistant_address'] = Variable<String>(homeAssistantAddress);
+    map['access_token'] = Variable<String>(accessToken);
+    map['notifications_setting'] = Variable<bool>(notificationsSetting);
+    map['connection_status'] = Variable<bool>(connectionStatus);
+    return map;
+  }
+
+  SettingsCompanion toCompanion(bool nullToAbsent) {
+    return SettingsCompanion(
+      homeAssistantAddress: Value(homeAssistantAddress),
+      accessToken: Value(accessToken),
+      notificationsSetting: Value(notificationsSetting),
+      connectionStatus: Value(connectionStatus),
+    );
+  }
+
+  factory Setting.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Setting(
+      homeAssistantAddress:
+          serializer.fromJson<String>(json['homeAssistantAddress']),
+      accessToken: serializer.fromJson<String>(json['accessToken']),
+      notificationsSetting:
+          serializer.fromJson<bool>(json['notificationsSetting']),
+      connectionStatus: serializer.fromJson<bool>(json['connectionStatus']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'homeAssistantAddress': serializer.toJson<String>(homeAssistantAddress),
+      'accessToken': serializer.toJson<String>(accessToken),
+      'notificationsSetting': serializer.toJson<bool>(notificationsSetting),
+      'connectionStatus': serializer.toJson<bool>(connectionStatus),
+    };
+  }
+
+  Setting copyWith(
+          {String? homeAssistantAddress,
+          String? accessToken,
+          bool? notificationsSetting,
+          bool? connectionStatus}) =>
+      Setting(
+        homeAssistantAddress: homeAssistantAddress ?? this.homeAssistantAddress,
+        accessToken: accessToken ?? this.accessToken,
+        notificationsSetting: notificationsSetting ?? this.notificationsSetting,
+        connectionStatus: connectionStatus ?? this.connectionStatus,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('Setting(')
+          ..write('homeAssistantAddress: $homeAssistantAddress, ')
+          ..write('accessToken: $accessToken, ')
+          ..write('notificationsSetting: $notificationsSetting, ')
+          ..write('connectionStatus: $connectionStatus')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(homeAssistantAddress, accessToken,
+      notificationsSetting, connectionStatus);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Setting &&
+          other.homeAssistantAddress == this.homeAssistantAddress &&
+          other.accessToken == this.accessToken &&
+          other.notificationsSetting == this.notificationsSetting &&
+          other.connectionStatus == this.connectionStatus);
+}
+
+class SettingsCompanion extends UpdateCompanion<Setting> {
+  final Value<String> homeAssistantAddress;
+  final Value<String> accessToken;
+  final Value<bool> notificationsSetting;
+  final Value<bool> connectionStatus;
+  final Value<int> rowid;
+  const SettingsCompanion({
+    this.homeAssistantAddress = const Value.absent(),
+    this.accessToken = const Value.absent(),
+    this.notificationsSetting = const Value.absent(),
+    this.connectionStatus = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  SettingsCompanion.insert({
+    this.homeAssistantAddress = const Value.absent(),
+    this.accessToken = const Value.absent(),
+    this.notificationsSetting = const Value.absent(),
+    this.connectionStatus = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  static Insertable<Setting> custom({
+    Expression<String>? homeAssistantAddress,
+    Expression<String>? accessToken,
+    Expression<bool>? notificationsSetting,
+    Expression<bool>? connectionStatus,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (homeAssistantAddress != null)
+        'home_assistant_address': homeAssistantAddress,
+      if (accessToken != null) 'access_token': accessToken,
+      if (notificationsSetting != null)
+        'notifications_setting': notificationsSetting,
+      if (connectionStatus != null) 'connection_status': connectionStatus,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  SettingsCompanion copyWith(
+      {Value<String>? homeAssistantAddress,
+      Value<String>? accessToken,
+      Value<bool>? notificationsSetting,
+      Value<bool>? connectionStatus,
+      Value<int>? rowid}) {
+    return SettingsCompanion(
+      homeAssistantAddress: homeAssistantAddress ?? this.homeAssistantAddress,
+      accessToken: accessToken ?? this.accessToken,
+      notificationsSetting: notificationsSetting ?? this.notificationsSetting,
+      connectionStatus: connectionStatus ?? this.connectionStatus,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (homeAssistantAddress.present) {
+      map['home_assistant_address'] =
+          Variable<String>(homeAssistantAddress.value);
+    }
+    if (accessToken.present) {
+      map['access_token'] = Variable<String>(accessToken.value);
+    }
+    if (notificationsSetting.present) {
+      map['notifications_setting'] = Variable<bool>(notificationsSetting.value);
+    }
+    if (connectionStatus.present) {
+      map['connection_status'] = Variable<bool>(connectionStatus.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SettingsCompanion(')
+          ..write('homeAssistantAddress: $homeAssistantAddress, ')
+          ..write('accessToken: $accessToken, ')
+          ..write('notificationsSetting: $notificationsSetting, ')
+          ..write('connectionStatus: $connectionStatus, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$EncryptedDatabase extends GeneratedDatabase {
   _$EncryptedDatabase(QueryExecutor e) : super(e);
   late final $SmartPlugEntriesTable smartPlugEntries =
       $SmartPlugEntriesTable(this);
   late final $RegisteredSmartPlugsTable registeredSmartPlugs =
       $RegisteredSmartPlugsTable(this);
+  late final $SettingsTable settings = $SettingsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [smartPlugEntries, registeredSmartPlugs];
+      [smartPlugEntries, registeredSmartPlugs, settings];
 }

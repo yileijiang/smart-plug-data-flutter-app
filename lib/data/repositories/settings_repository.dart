@@ -1,55 +1,78 @@
+import 'package:drift/drift.dart';
 import 'package:get_it/get_it.dart';
-import 'package:smart_plug_data/data/shared_preferences/shared_preferences_manager.dart';
+import 'package:smart_plug_data/data/database/database.dart';
+import 'package:smart_plug_data/data/database/database_manager.dart';
 
 class SettingsRepository {
-  final sharedPreferencesManager = GetIt.instance<SharedPreferencesManager>();
+  final _database = GetIt.instance<DatabaseManager>().database;
+
+  SettingsRepository() {
+    _insertSettingsRowIfNone();
+  }
 
   Future<bool> getNotificationsSetting() async {
-    final notificationsString =
-        await sharedPreferencesManager.getString('notifications_setting');
-    bool notificationsBool = notificationsString == 'true';
-    return notificationsBool;
+    bool? notificationsBool = (await (_database.selectOnly(_database.settings)
+              ..addColumns([_database.settings.notificationsSetting])
+              ..limit(1))
+            .getSingleOrNull())
+        ?.read(_database.settings.notificationsSetting);
+
+    return notificationsBool ?? false;
   }
 
   Future<void> saveNotificationsSetting(bool notificationsBool) async {
-    await sharedPreferencesManager.saveString(
-        'notifications_setting', notificationsBool.toString());
+    await _database.update(_database.settings).write(SettingsCompanion(notificationsSetting: Value(notificationsBool)));
+
   }
 
   Future<String> getHomeAssistantAddress() async {
-    return await sharedPreferencesManager.getString('home_assistant_address');
+    String? homeAssistantAddress =
+        (await (_database.selectOnly(_database.settings)
+                  ..addColumns([_database.settings.homeAssistantAddress])
+                  ..limit(1))
+                .getSingleOrNull())
+            ?.read(_database.settings.homeAssistantAddress);
+
+    return homeAssistantAddress ?? '';
   }
 
   Future<void> saveHomeAssistantAddress(String homeAssistantAddress) async {
-    if (homeAssistantAddress.isNotEmpty) {
-      await sharedPreferencesManager.saveString(
-          'home_assistant_address', homeAssistantAddress);
-    } else {
-      await sharedPreferencesManager.deleteString('home_assistant_address');
-    }
+    await _database.update(_database.settings).write(SettingsCompanion(homeAssistantAddress: Value(homeAssistantAddress)));
   }
 
   Future<String> getAccessToken() async {
-    return await sharedPreferencesManager.getString('access_token');
+    String? accessToken = (await (_database.selectOnly(_database.settings)
+              ..addColumns([_database.settings.accessToken])
+              ..limit(1))
+            .getSingleOrNull())
+        ?.read(_database.settings.accessToken);
+
+    return accessToken ?? '';
   }
 
   Future<void> saveAccessToken(String accessToken) async {
-    if (accessToken.isNotEmpty) {
-      await sharedPreferencesManager.saveString('access_token', accessToken);
-    } else {
-      await sharedPreferencesManager.deleteString('access_token');
-    }
+    await _database.update(_database.settings).write(SettingsCompanion(accessToken: Value(accessToken)));
   }
 
   Future<bool> getConnectionStatus() async {
-    final connectionStatus =
-    await sharedPreferencesManager.getString('connection_status');
-    bool connectionStatusBool = connectionStatus == 'true';
-    return connectionStatusBool;
+    bool? connectionStatus = (await (_database.selectOnly(_database.settings)
+      ..addColumns([_database.settings.connectionStatus])
+      ..limit(1))
+        .getSingleOrNull())
+        ?.read(_database.settings.connectionStatus);
+
+    return connectionStatus ?? false;
   }
 
   Future<void> saveConnectionStatus(bool connectionStatusBool) async {
-    await sharedPreferencesManager.saveString(
-        'connection_status', connectionStatusBool.toString());
+    await _database.update(_database.settings).write(SettingsCompanion(connectionStatus: Value(connectionStatusBool)));
+  }
+
+  Future<void> _insertSettingsRowIfNone() async {
+    if (await _database.settings.count().getSingle() == 0) {
+      const settingsRow = SettingsCompanion(
+      );
+      await _database.into(_database.settings).insert(settingsRow);
+    }
   }
 }

@@ -19,7 +19,14 @@ class RegisteredSmartPlugs extends Table {
   BoolColumn get getNotifications => boolean().named('get_notifications').withDefault(const Constant(false))();
 }
 
-@DriftDatabase(tables: [SmartPlugEntries, RegisteredSmartPlugs])
+class Settings extends Table {
+  TextColumn get homeAssistantAddress => text().named('home_assistant_address').withDefault(const Constant(''))();
+  TextColumn get accessToken => text().named('access_token').withDefault(const Constant(''))();
+  BoolColumn get notificationsSetting => boolean().named('notifications_setting').withDefault(const Constant(false))();
+  BoolColumn get connectionStatus => boolean().named('connection_status').withDefault(const Constant(false))();
+}
+
+@DriftDatabase(tables: [SmartPlugEntries, RegisteredSmartPlugs, Settings])
 class EncryptedDatabase extends _$EncryptedDatabase {
   EncryptedDatabase(super.e);
 

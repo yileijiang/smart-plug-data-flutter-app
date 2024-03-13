@@ -20,39 +20,6 @@ class DatabaseManager {
     database = EncryptedDatabase(_initializeLazyDatabase());
   }
 
-  Future<void> openDatabaseIsolate() async {
-    final isolate = await _createIsolateWithSpawn();
-    database = EncryptedDatabase(await isolate.connect(singleClientMode: false));
-
-    IsolateNameServer.registerPortWithName(
-      isolate.connectPort, Constants.isolateConnectPortName
-    );
-  }
-
-  Future<void> connectToDatabaseIsolate() async {
-    SendPort? isolateConnectPort = IsolateNameServer.lookupPortByName(Constants.isolateConnectPortName);
-
-    if (isolateConnectPort != null) {
-      final isolate = DriftIsolate.fromConnectPort(isolateConnectPort);
-
-      database =
-          EncryptedDatabase(await isolate.connect(singleClientMode: false));
-    }
-  }
-
-  Future<void> closeDatabase() async {
-    await database.close();
-  }
-
-  Future<DriftIsolate> _createIsolateWithSpawn() async {
-    final token = RootIsolateToken.instance;
-    return await DriftIsolate.spawn(() {
-      BackgroundIsolateBinaryMessenger.ensureInitialized(token!);
-
-      return _initializeLazyDatabase();
-    });
-  }
-
   LazyDatabase _initializeLazyDatabase() {
     return LazyDatabase(() async {
       final dbFolder = await getApplicationDocumentsDirectory();

@@ -23,7 +23,7 @@ class ForegroundTaskHandler extends TaskHandler {
     Dependencies.setupDependencies();
 
     GetIt.instance<DatabaseManager>().openDatabase();
-    //await GetIt.instance<DatabaseManager>().openDatabaseIsolate();
+
     GetIt.instance<NotificationService>().init();
 
     GetIt.instance<HomeAssistantWebSocketAPIService>().setSendPort(sendPort!);
