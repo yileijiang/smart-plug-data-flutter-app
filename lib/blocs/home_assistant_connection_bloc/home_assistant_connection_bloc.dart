@@ -43,7 +43,7 @@ class HomeAssistantConnectionBloc
   }
 
   Future<void> _mapEstablishConnectionToHomeAssistantAPIEventToState(
-      // TODO: save status, according to WS connection
+      // TODO: navigate to other page and back while connecting throws error
       EstablishConnectionToHomeAssistantAPI event,
       Emitter<HomeAssistantConnectionState> emit) async {
     emit(Connecting());

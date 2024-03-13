@@ -5,8 +5,8 @@ import 'dart:isolate';
 import 'package:get_it/get_it.dart';
 import 'package:smart_plug_data/data/repositories/registered_smart_plugs_repository.dart';
 import 'package:smart_plug_data/data/repositories/settings_repository.dart';
-import 'package:smart_plug_data/services/message_processing_service/handlers/message_handler.dart';
-import 'package:smart_plug_data/services/message_processing_service/message_handler_manager.dart';
+import 'package:smart_plug_data/services/message_pipeline_service/handlers/message_handler.dart';
+import 'package:smart_plug_data/services/message_pipeline_service/message_pipeline_manager.dart';
 import 'package:smart_plug_data/utils/constants.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -72,8 +72,8 @@ class HomeAssistantWebSocketAPIService {
   }
 
   Future<void> _processMessage(Map<String, dynamic> message) async {
-    MessageHandler messageHandlerChain = GetIt.instance<MessageHandlerManager>().setUpHandlerChain();
-    messageHandlerChain.handle(message, null);
+    MessageHandler messageHandler = GetIt.instance<MessagePipelineManager>().setUpPipeline();
+    messageHandler.handle(message);
   }
 
 }

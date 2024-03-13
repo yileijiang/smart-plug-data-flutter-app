@@ -9,9 +9,9 @@ import 'package:smart_plug_data/blocs/home_assistant_address_bloc/home_assistant
 import 'package:smart_plug_data/blocs/home_assistant_connection_bloc/home_assistant_connection_bloc.dart';
 import 'package:smart_plug_data/blocs/home_assistant_connection_bloc/home_assistant_connection_event.dart';
 import 'package:smart_plug_data/blocs/home_assistant_connection_bloc/home_assistant_connection_state.dart';
-import 'package:smart_plug_data/blocs/push_notifications_setting_bloc/push_notifications_setting_bloc.dart';
-import 'package:smart_plug_data/blocs/push_notifications_setting_bloc/push_notifications_setting_event.dart';
-import 'package:smart_plug_data/blocs/push_notifications_setting_bloc/push_notifications_setting_state.dart';
+import 'package:smart_plug_data/blocs/notifications_setting_bloc/notifications_setting_bloc.dart';
+import 'package:smart_plug_data/blocs/notifications_setting_bloc/notifications_setting_event.dart';
+import 'package:smart_plug_data/blocs/notifications_setting_bloc/notifications_setting_state.dart';
 import 'package:smart_plug_data/blocs/settings_page_bloc/settings_page_bloc.dart';
 import 'package:smart_plug_data/blocs/settings_page_bloc/settings_page_event.dart';
 import 'package:smart_plug_data/blocs/settings_page_bloc/settings_page_state.dart';
@@ -19,7 +19,7 @@ import 'package:smart_plug_data/data/repositories/settings_repository.dart';
 import 'package:smart_plug_data/ui/widgets/access_token_widget.dart';
 import 'package:smart_plug_data/ui/widgets/home_assistant_address_widget.dart';
 import 'package:smart_plug_data/ui/widgets/home_assistant_connection_widget.dart';
-import 'package:smart_plug_data/ui/widgets/push_notifications_switch_widget.dart';
+import 'package:smart_plug_data/ui/widgets/notifications_switch_widget.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -43,10 +43,10 @@ class SettingsPage extends StatelessWidget {
               settingsRepository: context.read<SettingsRepository>(),
             )..add(LoadAccessToken()),
           ),
-          BlocProvider<PushNotificationsSettingBloc>(
-            create: (context) => PushNotificationsSettingBloc(
+          BlocProvider<NotificationsSettingBloc>(
+            create: (context) => NotificationsSettingBloc(
               settingsRepository: context.read<SettingsRepository>(),
-            )..add(LoadPushNotificationsSetting()),
+            )..add(LoadNotificationsSetting()),
           ),
           BlocProvider<HomeAssistantConnectionBloc>(
             create: (context) => HomeAssistantConnectionBloc(
@@ -75,10 +75,10 @@ class SettingsPage extends StatelessWidget {
                   }
                 },
               ),
-              BlocListener<PushNotificationsSettingBloc,
-                  PushNotificationsSettingState>(
+              BlocListener<NotificationsSettingBloc,
+                  NotificationsSettingState>(
                 listener: (context, state) {
-                  if (state is PushNotificationsSettingLoaded) {
+                  if (state is NotificationsSettingLoaded) {
                     BlocProvider.of<SettingsPageBloc>(context)
                         .add(PushNotificationsSettingWidgetLoaded());
                   }
@@ -108,7 +108,7 @@ class SettingsPage extends StatelessWidget {
                       children: <Widget>[
                         HomeAssistantAddressWidget(),
                         AccessTokenWidget(),
-                        PushNotificationsSwitchWidget(),
+                        NotificationsSwitchWidget(),
                         HomeAssistantConnectionWidget(),
                       ],
                     ),

@@ -8,6 +8,12 @@ class OpenSmartPlugEntryDialog extends SmartPlugEntryDialogEvent {
   OpenSmartPlugEntryDialog(this.smartPlugEntry);
 }
 
+class OpenSmartPlugEntryDialogFromNotification extends SmartPlugEntryDialogEvent {
+  final String? payload;
+
+  OpenSmartPlugEntryDialogFromNotification(this.payload);
+}
+
 class CloseSmartPlugEntryDialog extends SmartPlugEntryDialogEvent {
 }
 

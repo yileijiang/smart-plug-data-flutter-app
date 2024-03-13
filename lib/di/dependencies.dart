@@ -6,12 +6,12 @@ import 'package:smart_plug_data/data/repositories/smart_plug_entries%20_reposito
 import 'package:smart_plug_data/data/shared_preferences/shared_preferences_manager.dart';
 import 'package:smart_plug_data/services/foreground_task_service.dart';
 import 'package:smart_plug_data/services/home_assistant_websocket_api_service.dart';
-import 'package:smart_plug_data/services/message_processing_service/handlers/message_handler_device_class_attribute.dart';
-import 'package:smart_plug_data/services/message_processing_service/handlers/message_handler_event.dart';
-import 'package:smart_plug_data/services/message_processing_service/handlers/message_handler_new_entry.dart';
-import 'package:smart_plug_data/services/message_processing_service/handlers/message_handler_notification.dart';
-import 'package:smart_plug_data/services/message_processing_service/handlers/message_handler_registered_smart_plug.dart';
-import 'package:smart_plug_data/services/message_processing_service/message_handler_manager.dart';
+import 'package:smart_plug_data/services/message_pipeline_service/handlers/message_handler_device_class_attribute.dart';
+import 'package:smart_plug_data/services/message_pipeline_service/handlers/message_handler_event.dart';
+import 'package:smart_plug_data/services/message_pipeline_service/handlers/message_handler_new_entry.dart';
+import 'package:smart_plug_data/services/message_pipeline_service/handlers/message_handler_notification.dart';
+import 'package:smart_plug_data/services/message_pipeline_service/handlers/message_handler_registered_smart_plug.dart';
+import 'package:smart_plug_data/services/message_pipeline_service/message_pipeline_manager.dart';
 import 'package:smart_plug_data/services/notification_service.dart';
 
 class Dependencies {
@@ -29,8 +29,7 @@ class Dependencies {
     getIt.registerLazySingleton<DatabaseManager>(() => DatabaseManager());
     getIt.registerLazySingleton<SharedPreferencesManager>(() => SharedPreferencesManager());
 
-
-    getIt.registerLazySingleton<MessageHandlerManager>(() => MessageHandlerManager());
+    getIt.registerLazySingleton<MessagePipelineManager>(() => MessagePipelineManager());
     getIt.registerLazySingleton<MessageHandlerEvent>(() => MessageHandlerEvent());
     getIt.registerLazySingleton<MessageHandlerRegisteredSmartPlug>(() => MessageHandlerRegisteredSmartPlug());
     getIt.registerLazySingleton<MessageHandlerDeviceClassAttribute>(() => MessageHandlerDeviceClassAttribute());

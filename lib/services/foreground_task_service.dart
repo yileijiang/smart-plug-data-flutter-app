@@ -21,8 +21,7 @@ class ForegroundTaskService {
           name: 'launcher',
         ),
         buttons: [
-          const NotificationButton(id: 'sendButton', text: 'Send'),
-          const NotificationButton(id: 'testButton', text: 'Test'),
+          const NotificationButton(id: 'closeButton', text: 'Close Connection'),
         ],
       ),
       iosNotificationOptions: const IOSNotificationOptions(
@@ -40,7 +39,7 @@ class ForegroundTaskService {
 
    Future<void> startForegroundTask() async {
      await FlutterForegroundTask.startService(
-      notificationTitle: 'Foreground Service is running',
+      notificationTitle: 'Home Assistant API Connection',
       notificationText: 'Tap to return to the app',
       callback: startCallback,
     );

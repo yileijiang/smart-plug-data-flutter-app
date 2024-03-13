@@ -4,16 +4,16 @@ import 'package:smart_plug_data/data/shared_preferences/shared_preferences_manag
 class SettingsRepository {
   final sharedPreferencesManager = GetIt.instance<SharedPreferencesManager>();
 
-  Future<bool> getPushNotificationsSetting() async {
-    final pushNotificationsString =
-        await sharedPreferencesManager.getString('push_notifications_setting');
-    bool pushNotificationsBool = pushNotificationsString == 'true';
-    return pushNotificationsBool;
+  Future<bool> getNotificationsSetting() async {
+    final notificationsString =
+        await sharedPreferencesManager.getString('notifications_setting');
+    bool notificationsBool = notificationsString == 'true';
+    return notificationsBool;
   }
 
-  Future<void> savePushNotificationsSetting(bool pushNotificationsBool) async {
+  Future<void> saveNotificationsSetting(bool notificationsBool) async {
     await sharedPreferencesManager.saveString(
-        'push_notifications_setting', pushNotificationsBool.toString());
+        'notifications_setting', notificationsBool.toString());
   }
 
   Future<String> getHomeAssistantAddress() async {

@@ -3,7 +3,9 @@ import 'dart:isolate';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:get_it/get_it.dart';
 import 'package:smart_plug_data/data/database/database_manager.dart';
+import 'package:smart_plug_data/data/repositories/settings_repository.dart';
 import 'package:smart_plug_data/di/dependencies.dart';
+import 'package:smart_plug_data/services/foreground_task_service.dart';
 import 'package:smart_plug_data/services/home_assistant_websocket_api_service.dart';
 import 'package:smart_plug_data/services/notification_service.dart';
 
@@ -20,7 +22,8 @@ class ForegroundTaskHandler extends TaskHandler {
 
     Dependencies.setupDependencies();
 
-    await GetIt.instance<DatabaseManager>().openDatabaseIsolate();
+    GetIt.instance<DatabaseManager>().openDatabase();
+    //await GetIt.instance<DatabaseManager>().openDatabaseIsolate();
     GetIt.instance<NotificationService>().init();
 
     GetIt.instance<HomeAssistantWebSocketAPIService>().setSendPort(sendPort!);
@@ -34,27 +37,18 @@ class ForegroundTaskHandler extends TaskHandler {
   void onRepeatEvent(DateTime timestamp, SendPort? sendPort) async {
   }
 
-  // Called when the notification button on the Android platform is pressed.
   @override
   void onDestroy(DateTime timestamp, SendPort? sendPort) async {}
 
-  // Called when the notification button on the Android platform is pressed.
   @override
-  void onNotificationButtonPressed(String id) {
-    print('onNotificationButtonPressed >> $id');
+  Future<void> onNotificationButtonPressed(String id) async {
+    await GetIt.instance<SettingsRepository>().saveConnectionStatus(false);
+    GetIt.instance<ForegroundTaskService>().stopForegroundTask();
   }
 
-  // Called when the notification itself on the Android platform is pressed.
-  //
-  // "android.permission.SYSTEM_ALERT_WINDOW" permission must be granted for
-  // this function to be called.
   @override
   void onNotificationPressed() {
-    // Note that the app will only route to "/resume-route" when it is exited so
-    // it will usually be necessary to send a message through the send port to
-    // signal it to restore state when the app is already started.
     FlutterForegroundTask.launchApp("/resume-route");
-    // _sendPort?.send('onNotificationPressed');
   }
 
 }
