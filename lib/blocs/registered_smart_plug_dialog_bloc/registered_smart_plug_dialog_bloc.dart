@@ -88,10 +88,10 @@ class RegisteredSmartPlugDialogBloc extends Bloc<RegisteredSmartPlugDialogEvent,
       await registeredSmartPlugsRepository
           .deleteRegisteredSmartPlug(event.registeredSmartPlug);
       emit(RegisteredSmartPlugDeleted());
-      ToastUtils.showSuccessToast('Entry deleted');
+      ToastUtils.showSuccessToast('Smart plug deleted');
       emit(RegisteredSmartPlugDialogClosed());
     } catch (e) {
-      ToastUtils.showErrorToast('Error deleting entry');
+      ToastUtils.showErrorToast('Error deleting smart plug');
     }
   }
 

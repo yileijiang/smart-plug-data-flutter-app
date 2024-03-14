@@ -74,7 +74,7 @@ class SmartPlugEntriesListWidget extends StatelessWidget {
                   ),
                 );
               } else if (state is SmartPlugEntriesEmpty) {
-                return const Text('No entries yet.');
+                return const Center(child: Text('No entries yet.'));
               } else {
                 return const SizedBox(); // Initial state
               }

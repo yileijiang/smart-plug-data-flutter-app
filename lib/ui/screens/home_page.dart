@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:smart_plug_data/blocs/data_sharing_dialog_bloc/data_sharing_dialog_bloc.dart';
+import 'package:smart_plug_data/blocs/data_sharing_dialog_bloc/data_sharing_dialog_event.dart';
 import 'package:smart_plug_data/blocs/smart_plug_entries_bloc/smart_plug_entries_bloc.dart';
 import 'package:smart_plug_data/blocs/smart_plug_entries_bloc/smart_plug_entries_event.dart';
 import 'package:smart_plug_data/blocs/smart_plug_entry_dialog_bloc/smart_plug_entry_dialog_bloc.dart';
 import 'package:smart_plug_data/data/repositories/smart_plug_entries _repository.dart';
+import 'package:smart_plug_data/ui/widgets/data_sharing_button.dart';
+import 'package:smart_plug_data/ui/widgets/data_sharing_dialog.dart';
 import 'package:smart_plug_data/ui/widgets/menu_app_bar_widget.dart';
 import 'package:smart_plug_data/ui/widgets/smart_plug_entries_list_widget.dart';
-import 'package:smart_plug_data/ui/widgets/smart_plug_entry_dialog.dart';
+import 'package:smart_plug_data/ui/widgets/smart_plug_entry_dialog_widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -27,6 +32,12 @@ class HomePage extends StatelessWidget {
             create: (context) => SmartPlugEntryDialogBloc(
               smartPlugEntriesRepository:
                   context.read<SmartPlugEntriesRepository>(),
+            ),
+          ),
+          BlocProvider<DataSharingDialogBloc>(
+            create: (context) => DataSharingDialogBloc(
+              smartPlugEntriesRepository:
+              context.read<SmartPlugEntriesRepository>(),
             ),
           ),
         ],
@@ -52,14 +63,11 @@ class HomePage extends StatelessWidget {
                 ),
                 const SmartPlugEntriesListWidget(),
                 const SmartPlugEntryDialogWidget(),
+                const DataSharingDialogWidget(),
               ],
             ),
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {},
-            tooltip: 'Share Data',
-            child: const Icon(Icons.share),
-          ),
+          floatingActionButton: const DataSharingButton(),
         ),
       ),
     );

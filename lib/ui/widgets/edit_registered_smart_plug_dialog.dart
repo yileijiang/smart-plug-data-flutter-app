@@ -80,7 +80,7 @@ class EditRegisteredSmartPlugDialogState
                 );
               },
               icon: const Icon(Icons.delete),
-              label: const Text('Delete Entry'),
+              label: const Text('Delete Smart Plug'),
               style: TextButton.styleFrom(
                 padding: EdgeInsets.zero,
                 overlayColor: Colors.transparent,
