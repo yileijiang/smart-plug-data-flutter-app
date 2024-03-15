@@ -18,10 +18,11 @@ class RegisteredSmartPlugDialogWidget extends StatelessWidget {
             barrierDismissible: false,
             context: context,
             builder: (BuildContext newContext) {
-              return EditRegisteredSmartPlugDialog(
-                registeredSmartPlugDialogBloc:
-                    BlocProvider.of<RegisteredSmartPlugDialogBloc>(context),
-                registeredSmartPlug: state.registeredSmartPlug,
+              return BlocProvider<RegisteredSmartPlugDialogBloc>.value(
+                value: context.read<RegisteredSmartPlugDialogBloc>(),
+                child: EditRegisteredSmartPlugDialog(
+                  registeredSmartPlug: state.registeredSmartPlug,
+                ),
               );
             },
           );
@@ -30,9 +31,9 @@ class RegisteredSmartPlugDialogWidget extends StatelessWidget {
             barrierDismissible: false,
             context: context,
             builder: (BuildContext newContext) {
-              return NewRegisteredSmartPlugDialog(
-                registeredSmartPlugDialogBloc:
-                    BlocProvider.of<RegisteredSmartPlugDialogBloc>(context),
+              return BlocProvider<RegisteredSmartPlugDialogBloc>.value(
+                value: context.read<RegisteredSmartPlugDialogBloc>(),
+                child: const NewRegisteredSmartPlugDialog(),
               );
             },
           );

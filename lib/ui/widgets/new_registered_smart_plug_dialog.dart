@@ -2,13 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_plug_data/blocs/registered_smart_plug_dialog_bloc/registered_smart_plug_dialog_bloc.dart';
 import 'package:smart_plug_data/blocs/registered_smart_plug_dialog_bloc/registered_smart_plug_dialog_event.dart';
-import 'package:smart_plug_data/blocs/registered_smart_plug_dialog_bloc/registered_smart_plug_dialog_state.dart';
 
 class NewRegisteredSmartPlugDialog extends StatefulWidget {
-  final RegisteredSmartPlugDialogBloc registeredSmartPlugDialogBloc;
-
   const NewRegisteredSmartPlugDialog({
-    required this.registeredSmartPlugDialogBloc,
     super.key,
   });
 
@@ -50,12 +46,12 @@ class NewRegisteredSmartPlugDialogState
             TextField(
               controller: homeAssistantEntityIdController,
               decoration:
-              const InputDecoration(labelText: 'Home Assistant Entity Id'),
+                  const InputDecoration(labelText: 'Home Assistant Entity Id'),
             ),
             TextField(
               controller: deviceClassAttributeController,
               decoration:
-              const InputDecoration(labelText: 'Device Class Attribute'),
+                  const InputDecoration(labelText: 'Device Class Attribute'),
             ),
             Row(
               children: [
@@ -76,7 +72,7 @@ class NewRegisteredSmartPlugDialogState
       actions: <Widget>[
         TextButton(
           onPressed: () {
-            widget.registeredSmartPlugDialogBloc.add(
+            BlocProvider.of<RegisteredSmartPlugDialogBloc>(context).add(
               CloseRegisteredSmartPlugDialog(),
             );
           },
@@ -84,44 +80,14 @@ class NewRegisteredSmartPlugDialogState
         ),
         TextButton(
           onPressed: () {
-            widget.registeredSmartPlugDialogBloc.add(
-              AddNewRegisteredSmartPlug(
-                  homeAssistantEntityIdController.text,
-                  deviceClassAttributeController.text,
-                  getNotificationsBoolean),
+            BlocProvider.of<RegisteredSmartPlugDialogBloc>(context).add(
+              AddNewRegisteredSmartPlug(homeAssistantEntityIdController.text,
+                  deviceClassAttributeController.text, getNotificationsBoolean),
             );
           },
           child: const Text('Save'),
         ),
       ],
-    );
-  }
-}
-
-class RegisteredSmartPlugDialogWidget extends StatelessWidget {
-  const RegisteredSmartPlugDialogWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocListener<RegisteredSmartPlugDialogBloc,
-        RegisteredSmartPlugDialogState>(
-      listener: (context, state) {
-        if (state is NewRegisteredSmartPlugDialogOpen) {
-          showDialog(
-            barrierDismissible: false,
-            context: context,
-            builder: (BuildContext newContext) {
-              return NewRegisteredSmartPlugDialog(
-                registeredSmartPlugDialogBloc:
-                BlocProvider.of<RegisteredSmartPlugDialogBloc>(context),
-              );
-            },
-          );
-        } else if (state is RegisteredSmartPlugDialogClosed) {
-          Navigator.of(context).pop();
-        }
-      },
-      child: const SizedBox(),
     );
   }
 }

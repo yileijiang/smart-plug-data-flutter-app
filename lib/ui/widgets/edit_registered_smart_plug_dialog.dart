@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_plug_data/blocs/registered_smart_plug_dialog_bloc/registered_smart_plug_dialog_bloc.dart';
 import 'package:smart_plug_data/blocs/registered_smart_plug_dialog_bloc/registered_smart_plug_dialog_event.dart';
 import 'package:smart_plug_data/data/database/database.dart';
 
 class EditRegisteredSmartPlugDialog extends StatefulWidget {
-  final RegisteredSmartPlugDialogBloc registeredSmartPlugDialogBloc;
   final RegisteredSmartPlug registeredSmartPlug;
 
   const EditRegisteredSmartPlugDialog({
-    required this.registeredSmartPlugDialogBloc,
     required this.registeredSmartPlug,
     super.key,
   });
@@ -75,7 +74,7 @@ class EditRegisteredSmartPlugDialogState
             ),
             TextButton.icon(
               onPressed: () {
-                widget.registeredSmartPlugDialogBloc.add(
+                BlocProvider.of<RegisteredSmartPlugDialogBloc>(context).add(
                   DeleteRegisteredSmartPlug(widget.registeredSmartPlug),
                 );
               },
@@ -92,7 +91,7 @@ class EditRegisteredSmartPlugDialogState
       actions: <Widget>[
         TextButton(
           onPressed: () {
-            widget.registeredSmartPlugDialogBloc.add(
+            BlocProvider.of<RegisteredSmartPlugDialogBloc>(context).add(
               CloseRegisteredSmartPlugDialog(),
             );
           },
@@ -100,7 +99,7 @@ class EditRegisteredSmartPlugDialogState
         ),
         TextButton(
           onPressed: () {
-            widget.registeredSmartPlugDialogBloc.add(
+            BlocProvider.of<RegisteredSmartPlugDialogBloc>(context).add(
               UpdateRegisteredSmartPlug(
                   widget.registeredSmartPlug,
                   homeAssistantEntityIdController.text,

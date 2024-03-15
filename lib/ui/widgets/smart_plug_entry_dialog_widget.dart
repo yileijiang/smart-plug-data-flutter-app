@@ -8,11 +8,9 @@ import 'package:smart_plug_data/data/database/database.dart';
 import 'package:smart_plug_data/services/notification_service.dart';
 
 class SmartPlugEntryDialog extends StatelessWidget {
-  final SmartPlugEntryDialogBloc smartPlugEntryDialogBloc;
   final SmartPlugEntry smartPlugEntry;
 
   const SmartPlugEntryDialog({
-    required this.smartPlugEntryDialogBloc,
     required this.smartPlugEntry,
     super.key,
   });
@@ -47,7 +45,7 @@ class SmartPlugEntryDialog extends StatelessWidget {
             ),
             TextButton.icon(
               onPressed: () {
-                smartPlugEntryDialogBloc.add(
+                BlocProvider.of<SmartPlugEntryDialogBloc>(context).add(
                   DeleteSmartPlugEntry(smartPlugEntry),
                 );
               },
@@ -64,7 +62,7 @@ class SmartPlugEntryDialog extends StatelessWidget {
       actions: <Widget>[
         TextButton(
           onPressed: () {
-            smartPlugEntryDialogBloc.add(
+            BlocProvider.of<SmartPlugEntryDialogBloc>(context).add(
               CloseSmartPlugEntryDialog(),
             );
           },
@@ -72,7 +70,7 @@ class SmartPlugEntryDialog extends StatelessWidget {
         ),
         TextButton(
           onPressed: () {
-            smartPlugEntryDialogBloc.add(
+            BlocProvider.of<SmartPlugEntryDialogBloc>(context).add(
               UpdateSmartPlugEntry(smartPlugEntry, labelController.text),
             );
           },
@@ -111,11 +109,11 @@ class SmartPlugEntryDialogWidgetState
             barrierDismissible: false,
             context: context,
             builder: (BuildContext newContext) {
-              return SmartPlugEntryDialog(
-                smartPlugEntryDialogBloc:
-                    BlocProvider.of<SmartPlugEntryDialogBloc>(context),
+              return BlocProvider<SmartPlugEntryDialogBloc>.value(
+                  value: context.read<SmartPlugEntryDialogBloc>(),
+              child: SmartPlugEntryDialog(
                 smartPlugEntry: state.smartPlugEntry,
-              );
+              ),);
             },
           );
         } else if (state is SmartPlugEntryDialogClosed) {

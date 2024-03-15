@@ -5,18 +5,15 @@ import 'package:smart_plug_data/blocs/data_sharing_dialog_bloc/data_sharing_dial
 import 'package:smart_plug_data/blocs/data_sharing_dialog_bloc/data_sharing_dialog_state.dart';
 
 class DataSharingDialog extends StatelessWidget {
-  final DataSharingDialogBloc dataSharingDialogBloc;
-
-  const DataSharingDialog({
-    required this.dataSharingDialogBloc,
-    super.key,
-  });
+  const DataSharingDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
     final TextEditingController passwordController = TextEditingController();
     final TextEditingController fileNameController = TextEditingController();
 
+    return BlocBuilder<DataSharingDialogBloc, DataSharingDialogState>(
+        builder: (context, state) {
       return Scaffold(
           resizeToAvoidBottomInset: true,
           appBar: AppBar(
@@ -26,7 +23,8 @@ class DataSharingDialog extends StatelessWidget {
               IconButton(
                 icon: const Icon(Icons.close),
                 onPressed: () {
-                  dataSharingDialogBloc.add(CloseDataSharingDialog());
+                  BlocProvider.of<DataSharingDialogBloc>(context)
+                      .add(CloseDataSharingDialog());
                 },
               ),
             ],
@@ -107,7 +105,7 @@ class DataSharingDialog extends StatelessWidget {
                                         subtitle:
                                             // TODO: change data to proper entry
                                             Text(
-                                                """{\n "entryId":"100",\n homeAssistantEntityId":"1", \n "timeStamp":"2023-12-25 13:10:43.794179",\n "state":"9.474", \n "deviceClass":"current", \n "label":"" \n}"""),
+                                                """{\n "entryId":"100",\n homeAssistantEntityId":"1", \n "timeStamp":"2023-08-25 13:10:43.000",\n "state":"9.474", \n "deviceClass":"current", \n "label":"running dishwasher" \n}"""),
                                       ),
                                     ],
                                   ),
@@ -123,16 +121,12 @@ class DataSharingDialog extends StatelessWidget {
                     alignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       ElevatedButton.icon(
-                        onPressed: dataSharingDialogBloc.state
-                                is DataDownloadSuccess
+                        onPressed: (state is DataDownloadSuccess)
                             ? () {
-                                /*
-                                final fileName = (dataSharingDialogBloc.state
+                                final path = state.path;
 
-                                        as DataDownloadSuccess)
-                                    .fileName;  */
-
-                                dataSharingDialogBloc.add(ShareData('hi'));
+                                BlocProvider.of<DataSharingDialogBloc>(context)
+                                    .add(ShareData(path));
                               }
                             : null,
                         icon: const Icon(Icons.share),
@@ -140,9 +134,9 @@ class DataSharingDialog extends StatelessWidget {
                       ),
                       ElevatedButton.icon(
                         onPressed: () {
-                          dataSharingDialogBloc.add(DownloadData(
-                              fileNameController.text,
-                              passwordController.text));
+                          BlocProvider.of<DataSharingDialogBloc>(context).add(
+                              DownloadData(fileNameController.text,
+                                  passwordController.text));
                         },
                         icon: const Icon(Icons.download),
                         label: const Text('Download File'),
@@ -153,8 +147,9 @@ class DataSharingDialog extends StatelessWidget {
               ),
             ),
           ));
-    }
+    });
   }
+}
 
 class DataSharingDialogWidget extends StatelessWidget {
   const DataSharingDialogWidget({super.key});
@@ -167,9 +162,9 @@ class DataSharingDialogWidget extends StatelessWidget {
             barrierDismissible: false,
             context: context,
             builder: (BuildContext newContext) {
-              return DataSharingDialog(
-                dataSharingDialogBloc:
-                    BlocProvider.of<DataSharingDialogBloc>(context),
+              return BlocProvider<DataSharingDialogBloc>.value(
+                value: context.read<DataSharingDialogBloc>(),
+                child: const DataSharingDialog(),
               );
             },
           );

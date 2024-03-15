@@ -26,12 +26,11 @@ class DataSharingDialogBloc
 
   void _mapOpenDataSharingDialogEventToState(
       OpenDataSharingDialog event, Emitter<DataSharingDialogState> emit) async {
-      emit(DataSharingDialogOpen());
-
+    emit(DataSharingDialogOpen());
   }
 
-  void _mapCloseDataSharingDialogEventToState(
-      CloseDataSharingDialog event, Emitter<DataSharingDialogState> emit) async {
+  void _mapCloseDataSharingDialogEventToState(CloseDataSharingDialog event,
+      Emitter<DataSharingDialogState> emit) async {
     emit(DataSharingDialogClosed());
   }
 
@@ -54,26 +53,31 @@ class DataSharingDialogBloc
         return;
       }
 
-      List<SmartPlugEntry> smartPlugEntries = await smartPlugEntriesRepository.getSmartPlugEntries();
-      List<SmartPlugEntry> anonymizedSmartPlugEntries = AnonymizationUtils.anonymizeHomeAssistantEntityIds(smartPlugEntries);
+      List<SmartPlugEntry> smartPlugEntries =
+          await smartPlugEntriesRepository.getSmartPlugEntries();
+      List<SmartPlugEntry> anonymizedSmartPlugEntries =
+          AnonymizationUtils.anonymizeHomeAssistantEntityIds(smartPlugEntries);
       String smartPlugEntriesJson = jsonEncode(anonymizedSmartPlugEntries);
-      String path = GetIt.instance<EncryptionService>().encryptDataAndSaveToFile(smartPlugEntriesJson, fileDirectory.path, event.fileName, event.encryptionPassword);
+      String path = GetIt.instance<EncryptionService>()
+          .encryptDataAndSaveToFile(smartPlugEntriesJson, fileDirectory.path,
+              event.fileName, event.encryptionPassword);
 
       emit(DataDownloadSuccess(path));
 
-      ToastUtils.showSuccessToast('Downloaded data as ${event.fileName}.aes');
+      ToastUtils.showSuccessToast('Downloaded data at $path');
     } catch (e) {
       ToastUtils.showErrorToast('Error downloading data');
     }
-
-
   }
-
 
   void _mapShareDataEventToState(
       ShareData event, Emitter<DataSharingDialogState> emit) async {
     try {
-      final result = await Share.shareXFiles([XFile('/storage/emulated/0/Download/${event.fileName}.aes')], text: 'Attachment contains AES encrypted smart plug data entries in JSON format. The file can be decrypted with the password and any software using the AES Crypt standard file format. More information on AES Crypt can be found at https://www.aescrypt.com/.', subject: 'Smart Plug Data Entries');
+      final result = await Share.shareXFiles(
+          [XFile(event.path)],
+          text:
+              'Attachment contains AES encrypted smart plug data entries in JSON format. The file can be decrypted with the password and any software using the AES Crypt standard file format. More information on AES Crypt can be found at https://www.aescrypt.com/',
+          subject: 'Smart Plug Data Entries');
 
       if (result.status == ShareResultStatus.success) {
         ToastUtils.showSuccessToast('File shared');
@@ -81,6 +85,5 @@ class DataSharingDialogBloc
     } catch (e) {
       ToastUtils.showErrorToast('Error sharing file');
     }
-
   }
 }

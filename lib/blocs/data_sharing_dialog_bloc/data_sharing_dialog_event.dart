@@ -13,7 +13,7 @@ class DownloadData extends DataSharingDialogEvent {
 }
 
 class ShareData extends DataSharingDialogEvent {
-  String fileName;
+  String path;
 
-  ShareData(this.fileName);
+  ShareData(this.path);
 }
