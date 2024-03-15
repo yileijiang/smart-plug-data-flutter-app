@@ -8,7 +8,7 @@ import 'package:smart_plug_data/blocs/smart_plug_entries_bloc/smart_plug_entries
 import 'package:smart_plug_data/blocs/smart_plug_entry_dialog_bloc/smart_plug_entry_dialog_bloc.dart';
 import 'package:smart_plug_data/data/repositories/smart_plug_entries _repository.dart';
 import 'package:smart_plug_data/ui/widgets/data_sharing_button.dart';
-import 'package:smart_plug_data/ui/widgets/data_sharing_dialog.dart';
+import 'package:smart_plug_data/ui/widgets/data_sharing_dialog_widget.dart';
 import 'package:smart_plug_data/ui/widgets/menu_app_bar_widget.dart';
 import 'package:smart_plug_data/ui/widgets/smart_plug_entries_list_widget.dart';
 import 'package:smart_plug_data/ui/widgets/smart_plug_entry_dialog_widget.dart';
