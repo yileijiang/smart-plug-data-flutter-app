@@ -74,7 +74,8 @@ The following steps describe how to set up and use the application, to collect s
 1. Set up a Home Assistant instance and integrate all smart plugs, for which data should be collected, to the platform. The integration may vary for different smart plug models.
 
 2. Open the application and navigate to the "Registered Smart Plugs" page, tap the add button and register all smart plugs entities you wish to collect data for. For each smart plug, provide the Home Assistant entity Id of the smart plug and its device class attribute.
-Information on the Home Assistant entity Id and device class attribute can be found on Home Assistant under Developer Tools->State. The device class attribute is under the column attributes and should usually be called "device_class". The Device Class Attribute should be the key and something like "device_class" and NOT the value of the device class, i.e. is should NOT be "power". You can also specify whether you would like to receive notifications for this specific home assistant entity.
+- Information on the Home Assistant entity Id and device class attribute can be found on Home Assistant under Developer Tools->State
+- The device class attribute is under the column attributes and should usually be called "device_class". The Device Class Attribute should be the key and something like "device_class" and NOT the value of the device class, i.e. is should NOT be "power". You can also specify whether you would like to receive notifications for this specific home assistant entity.
 
 ![picture1](https://github.com/yileijiang/smart-plug-data-flutter-app/assets/71334281/565f3199-fb13-454e-8333-b520d1579476)
 
@@ -86,21 +87,21 @@ Example of a Home Assistant address format: "10.42.17.9:8123"
 
 - You can also set your notifications preference for ALL registered smart plug entities, i.e. whether you want to receive notifications in general.
 
-5. Connect to the Home Assistant API in the Settings page. Please allow the application to send you notifications. Upon successful connection and authentication, a foreground service will be active and the data collection process will be started. Every time a state changes for one of the registered smart plug entities, it will now be saved in an entry. If you have notifications enabled, you will receive a notification for every state change. You can click on the notification and it will launch a dialog, where you can enter a label.
+5. Connect to the Home Assistant API in the Settings page. Please allow the application to send you notifications. Upon successful connection and authentication, a foreground service will be active and the data collection process will be started. Every time a state changes for one of the registered smart plug entities, the information will now be saved in an entry. If you have notifications enabled, you will receive a notification for every entry. You can click on the notification and it will launch a dialog, where you can enter a label for that entry.
 
 6. You can find all entries on the application's home page, where you can also edit every entry, i.e. delete the entry or change the label.
 
-7. You can download the entries by clicking the download button on the home page. The downloaded file will be encrypted using AES encryption. To download the entries, you need to provide a file name and an encryption password. Make sure to remember or store the password somewhere safely, as there will be no way to retrieve it and it is necessary to decrypt the file containing the entries.
-Entries are saved in JSON format and all Home Assistant entity Ids are anonymized (i.e. converted to numbers).
-The file can be found in the "Downloads" folder. After downloading, you can share the file using your prefered way (e.g. Gmail).
-
-9. The encrypted file decrypted using any software employing the AES Crypt standard file format and the previously specified encryption password.
+7. You can download the entries by clicking the download button on the home page. To download the entries, you need to provide a file name and an encryption password. Make sure to remember or store the password somewhere safely, as there will be no way to retrieve it and it is necessary to decrypt the file containing the entries.
+- The downloaded file will be encrypted using AES encryption. The file can be decrypted using any software employing the AES Crypt standard file format and the previously specified encryption password.
 More information can be found at https://www.aescrypt.com/aes_file_format.html#:~:text=AES%20Crypt%20reads%20and%20writes,is%20easily%20identifiable%20by%20software
+- Entries are saved in JSON format and all Home Assistant entity Ids are anonymized (i.e. converted to numbers).
+- The encrypted file can be found in the "Downloads" folder. After downloading, you can click the share button and share the file using your prefered way (e.g. Gmail)
 
+8. The connection to the Home Assistant API will be running in a foreground task, this means that the connection will be active and collecting data, even when you close the main application. While the connection is active, a notification will be displayed in the notifications bar. The connection can be terminated any time. You can click the "Close Connection" button in the notification or you can open the application and terminate the connection in the settings page. 
 
 ## Results
 
-Does a repository contain a table/plot of main results and a script to reproduce those results?
+Some exemplary data collected in a real life household is included in the repository.
 
 ## Project structure
 
@@ -108,24 +109,25 @@ Does a repository contain a table/plot of main results and a script to reproduce
 ├── README.md                                        -- Read Me file
 ├── pubspec.yaml                                     -- configuration file for flutter application
 ├── android                                          -- Android-specific files and configurations
-  ├── ...                                           
-├── ios                                              -- iOS-specific files and configurations
-  ├── ...                                                        
+  ├── ...                                                                            
 ├── lib                                              -- application code
   ├── main.dart                                      -- entry point of the application
-  ├── constants                                      -- strings used throughout the application
+  ├── utils                                          -- utility classes
+     ├── ...
+  ├── ui                                             -- user interface related classes
+     └── screens                                     -- application pages/screens
+     └── style                                       -- UI theme and style                                            
+     └── widgets                                     -- UI widgets
+  ├── services                                       -- varios service classes (encryption, notifications, foreground task, websocket API connection, message handeling)
+     ├── ...
+  ├── foreground task                                -- handler for the foreground task
+     └── foregrond_task_handler.dart
+  ├── di                                             -- dependency injection related class
+     ├── ...
   ├── data                                           -- data related classes
-    ├── ...
-  ├── services                                       -- service classes (encryption, notifications, webSocket connections)
-    ├── ...
-  ├── styles                                         -- UI theme styles
-  └── ui                                             -- UI related widgets and classes
-    └── blocs                                        -- blocs without widgets
-    └── pages                                        -- application pages                                              
-    └── utils                                        -- utility classes 
-    └── widgets                                      -- ui widgets
-      ├── web_socket_connection_widget
-        ├── web_socket_connection_foreground_task    -- foreground service  
-        ├── ...  
-      ├── ...                  
+     └── database                                    -- drift database related classes (manager class, generated classes)
+     └── repositories                                -- repositories for data classes                                       
+     └── shared_preferences_manager.dart             -- shared preferences manager class for encrypted shared prefeences
+  ├── blocs                                          -- BloCs containing business logic
+     ├── ...    
 ```
