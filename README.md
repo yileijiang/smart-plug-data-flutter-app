@@ -58,35 +58,41 @@ The following dependencies/third libraries were used:
   - encrypted_shared_preferences: ^3.0.1
   - uuid: ^4.3.3
 
-The artifact leverages the Home Assistant WebSocket API and thus requires the user to set up their Home Assistant instance and to integrate their smart plugs within the platform.
-
 ### Setup
+Disclaimer: The artifact leverages the Home Assistant WebSocket API and thus requires the user to set up their Home Assistant instance and to integrate their smart plugs within the platform. 
 
-For Android:
-1. Download the APK file from the release section of the github repository.
+To install the application on an Android smart phone:
+1. Download the APK file from the release section of this repository.
 2. Enable installations from unknown sources on the device in the device settings. 
 3. Navigate to the directory where the APK file is located and install the APK.
+
+The exact installtion process may vary.
 
 
 ## Reproducing Results
 
-1. Set up a Home Assistant instance and integrate all smart plugs to the platform. 
-2. Navigate to the Home Assistant entities page and add all smart plugs entities you wish to collect data for.
+The following steps describe how to set up and use the application, to collect smart plug data.
+
+1. Set up a Home Assistant instance and integrate all smart plugs, for which data should be collected, to the platform. The integration may vary for different smart plug models.
+
+2. Open the application and navigate to the Home Assistant entities page and add all smart plugs entities you wish to collect data for.
+
+3. 
 Provide the entity Id of the smart plug.
 Provide the attribute key of the attribute that specifies the device class of the sensor. 
 The default is set to the value "device_class", but this attribute may differ between smart plug brands and HA integrations.
 To find the entity Id and device class attribute key, go to the Home Assistant Instance and navigate to Developer Tools > States
 The entity Id can be found under the column "Entity".
 The device class attribute key can be found under the column "Attributes".
-3. Navigate to the settings page and add the address of the Home Assistant instance, as well as the Long Lived Access Token.
+5. Navigate to the settings page and add the address of the Home Assistant instance, as well as the Long Lived Access Token.
 The Home Assistant address should include the port.
 Example of a Home Assistant address format: "10.42.17.9:8123"
 The Long Lived Access Token can be generated in the profile page of Home Assistant under the section "Long-Lived Access Tokens"
-4. Connect to the Home Assistant API in the Settings page. Upon successful connection and authentication, a foreground service and the data collection process will be started.
-5. Enter labels to smart plug usage entries in the home page, or by clicking on the notifications (if the notification setting was enabled).
-6. Navigate to the home page and download the smart plug usage data. Provide an encryption password. Make sure to remember or store the password somewhere safely, as there will be no way to retrieve it.
+6. Connect to the Home Assistant API in the Settings page. Upon successful connection and authentication, a foreground service and the data collection process will be started.
+7. Enter labels to smart plug usage entries in the home page, or by clicking on the notifications (if the notification setting was enabled).
+8. Navigate to the home page and download the smart plug usage data. Provide an encryption password. Make sure to remember or store the password somewhere safely, as there will be no way to retrieve it.
 The .aes file can be found in the "Downloads" file in the device's external storage.
-7. The encrypted file can be shared and decrypted using any software employing the AES Crypt standard file format and the previously specified encryption password.
+9. The encrypted file can be shared and decrypted using any software employing the AES Crypt standard file format and the previously specified encryption password.
 https://www.aescrypt.com/aes_file_format.html#:~:text=AES%20Crypt%20reads%20and%20writes,is%20easily%20identifiable%20by%20software.
 
 
