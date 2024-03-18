@@ -24,11 +24,11 @@
 
 ## Summary
 
-The main contribution of the thesis is the design and development of a lightweight and user friendly Android mobile application, which addresses the complexities and challenges commonly associated with the data collection process within smart home environments.
+The main contribution of the thesis is the design and development of an artifact consisting of an Android mobile application, which addresses the complexities and challenges commonly associated with the data collection process within smart home environments. 
 
 The application leverages the Home Assistant WebSocket API to faciliate an effortless and streamlined data collection process for smart plug usage data. Notably, the application provides users with the ability to conveniently assign activity labels for smart plug usage data in real time, thus enhancing the contextual understanding of the collected smart plug data. Moreover, users can download and share the collected data and have granular control over the entire data collection and sharing process.
 
-This Repository includes the result of the development process, which is an APK that can be downloaded and installed on any Android smart phone, as well as the source code for the application.
+This Repository includes the artifact resulting from the development process, which is an APK that can be downloaded and installed on any Android smart phone. It also contains the source code for the application.
 
 **Keywords**: Smart Home, Smart Plug, Data Collection, Home Assistant API, Mobile Application, Activity Labels
 
@@ -37,20 +37,28 @@ This Repository includes the result of the development process, which is an APK 
 
 ### Dependencies
 All application dependencies are included in the artifact. 
-Dependencies/third libraries used are:
-- flutter_bloc: ^8.1.3
-- web_socket_channel: ^2.4.0
-- fluttertoast: ^8.2.2
-- flutter_foreground_task: ^6.1.2
-- hive: ^2.2.3
-- hive_flutter: ^1.1.0
-- flutter_secure_storage: ^9.0.0
-- flutter_local_notifications: ^16.1.0
-- path_provider: ^2.1.1
-- aes_crypt_null_safe: ^2.0.2
-- cupertino_icons: ^1.0.2
+The following dependencies/third libraries were used:
+  - drift: ^2.16.0
+  - encrypted_drift:
+    git:
+      url: https://github.com/simolus3/drift.git
+      path: extras/encryption
+  - path_provider: ^2.1.2
+  - path: ^1.9.0
+  - cupertino_icons: ^1.0.6
+  - flutter_foreground_task: ^6.1.3
+  - get_it: ^7.6.7
+  - flutter_bloc: ^8.1.4
+  - fluttertoast: ^8.2.4
+  - sqflite_sqlcipher: ^2.2.1
+  - web_socket_channel: ^2.4.4
+  - flutter_local_notifications: ^17.0.0
+  - share_plus: ^7.2.2
+  - aes_crypt_null_safe: ^3.0.0
+  - encrypted_shared_preferences: ^3.0.1
+  - uuid: ^4.3.3
 
-The Home Assistant Platform and the integration of smart plugs is required to be set up by the user.
+The artifact leverages the Home Assistant WebSocket API and thus requires the user to set up their Home Assistant instance and to integrate their smart plugs within the platform.
 
 ### Setup
 
