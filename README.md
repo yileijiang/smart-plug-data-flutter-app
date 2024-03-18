@@ -62,11 +62,9 @@ The following dependencies/third libraries were used:
 Disclaimer: The artifact leverages the Home Assistant WebSocket API and thus requires the user to set up their Home Assistant instance and to integrate their smart plugs within the platform. 
 
 To install the application on an Android smart phone:
-1. Download the APK file from the release section of this repository.
+1. Download the APK file 'app-release.apk' from the release section of this repository.
 2. Enable installations from unknown sources on the device in the device settings. 
 3. Navigate to the directory where the APK file is located and install the APK.
-
-The exact installtion process may vary.
 
 
 ## Reproducing Results
@@ -75,9 +73,14 @@ The following steps describe how to set up and use the application, to collect s
 
 1. Set up a Home Assistant instance and integrate all smart plugs, for which data should be collected, to the platform. The integration may vary for different smart plug models.
 
-2. Open the application and navigate to the Home Assistant entities page and add all smart plugs entities you wish to collect data for.
+2. Open the application and navigate to the "Registered Smart Plugs" page, tap the add button and register all smart plugs entities you wish to collect data for. For each smart plug, provide the Home Assistant entity Id of the smart plug and its device class attribute. Information on the entity Id and device class attribute can be found on your Home Assistant under Developer Tools->State. The device class attribute is under the column attributes and should usually be called "device_class".
 
-3. 
+![image](https://github.com/yileijiang/smart-plug-data-flutter-app/assets/71334281/06f1529e-6a63-4f19-b64c-09f2d35aa964)
+
+
+
+
+4. 
 Provide the entity Id of the smart plug.
 Provide the attribute key of the attribute that specifies the device class of the sensor. 
 The default is set to the value "device_class", but this attribute may differ between smart plug brands and HA integrations.
