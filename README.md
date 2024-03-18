@@ -101,7 +101,7 @@ More information can be found at https://www.aescrypt.com/aes_file_format.html#:
 
 ## Results
 
-Some exemplary data collected in a real life household is included in the repository.
+Some exemplary data that was collected in a real life household and that demonstrate the functionality of the application is included in the repository.
 
 ## Project structure
 
