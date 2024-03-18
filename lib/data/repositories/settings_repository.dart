@@ -21,8 +21,8 @@ class SettingsRepository {
   }
 
   Future<void> saveNotificationsSetting(bool notificationsBool) async {
-    await _database.update(_database.settings).write(SettingsCompanion(notificationsSetting: Value(notificationsBool)));
-
+    await _database.update(_database.settings).write(
+        SettingsCompanion(notificationsSetting: Value(notificationsBool)));
   }
 
   Future<String> getHomeAssistantAddress() async {
@@ -37,7 +37,8 @@ class SettingsRepository {
   }
 
   Future<void> saveHomeAssistantAddress(String homeAssistantAddress) async {
-    await _database.update(_database.settings).write(SettingsCompanion(homeAssistantAddress: Value(homeAssistantAddress)));
+    await _database.update(_database.settings).write(
+        SettingsCompanion(homeAssistantAddress: Value(homeAssistantAddress)));
   }
 
   Future<String> getAccessToken() async {
@@ -51,27 +52,29 @@ class SettingsRepository {
   }
 
   Future<void> saveAccessToken(String accessToken) async {
-    await _database.update(_database.settings).write(SettingsCompanion(accessToken: Value(accessToken)));
+    await _database
+        .update(_database.settings)
+        .write(SettingsCompanion(accessToken: Value(accessToken)));
   }
 
   Future<bool> getConnectionStatus() async {
     bool? connectionStatus = (await (_database.selectOnly(_database.settings)
-      ..addColumns([_database.settings.connectionStatus])
-      ..limit(1))
-        .getSingleOrNull())
+              ..addColumns([_database.settings.connectionStatus])
+              ..limit(1))
+            .getSingleOrNull())
         ?.read(_database.settings.connectionStatus);
 
     return connectionStatus ?? false;
   }
 
   Future<void> saveConnectionStatus(bool connectionStatusBool) async {
-    await _database.update(_database.settings).write(SettingsCompanion(connectionStatus: Value(connectionStatusBool)));
+    await _database.update(_database.settings).write(
+        SettingsCompanion(connectionStatus: Value(connectionStatusBool)));
   }
 
   Future<void> _insertSettingsRowIfNone() async {
     if (await _database.settings.count().getSingle() == 0) {
-      const settingsRow = SettingsCompanion(
-      );
+      const settingsRow = SettingsCompanion();
       await _database.into(_database.settings).insert(settingsRow);
     }
   }

@@ -9,13 +9,15 @@ class NotificationsSwitchWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<NotificationsSettingBloc,
-        NotificationsSettingState>(builder: (context, state) {
+    return BlocBuilder<NotificationsSettingBloc, NotificationsSettingState>(
+        builder: (context, state) {
       if (state is NotificationsSettingLoaded) {
         return Row(
           children: [
-            const Expanded(
-              child: Text('Receive Notifications'),
+            Expanded(
+              child: Text(
+                  style: Theme.of(context).textTheme.titleMedium,
+                  'Receive Notifications'),
             ),
             Switch(
               value: state.notificationsBool,

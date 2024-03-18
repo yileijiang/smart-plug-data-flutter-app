@@ -1,8 +1,10 @@
 import 'package:get_it/get_it.dart';
 import 'package:smart_plug_data/data/database/database_manager.dart';
+import 'package:smart_plug_data/data/repositories/password_repository.dart';
 import 'package:smart_plug_data/data/repositories/registered_smart_plugs_repository.dart';
 import 'package:smart_plug_data/data/repositories/settings_repository.dart';
 import 'package:smart_plug_data/data/repositories/smart_plug_entries%20_repository.dart';
+import 'package:smart_plug_data/data/shared_preferences_manager.dart';
 import 'package:smart_plug_data/services/encryption_service.dart';
 import 'package:smart_plug_data/services/foreground_task_service.dart';
 import 'package:smart_plug_data/services/home_assistant_websocket_api_service.dart';
@@ -15,29 +17,39 @@ import 'package:smart_plug_data/services/message_pipeline_service/message_pipeli
 import 'package:smart_plug_data/services/notification_service.dart';
 
 class Dependencies {
-
   static void setupDependencies() {
     final getIt = GetIt.instance;
     getIt.registerLazySingleton<SettingsRepository>(() => SettingsRepository());
-    getIt.registerLazySingleton<SmartPlugEntriesRepository>(() => SmartPlugEntriesRepository());
-    getIt.registerLazySingleton<RegisteredSmartPlugsRepository>(() => RegisteredSmartPlugsRepository());
+    getIt.registerLazySingleton<SmartPlugEntriesRepository>(
+        () => SmartPlugEntriesRepository());
+    getIt.registerLazySingleton<RegisteredSmartPlugsRepository>(
+        () => RegisteredSmartPlugsRepository());
+    getIt.registerLazySingleton<PasswordRepository>(
+            () => PasswordRepository());
 
-    getIt.registerLazySingleton<ForegroundTaskService>(() => ForegroundTaskService());
-    getIt.registerLazySingleton<HomeAssistantWebSocketAPIService>(() => HomeAssistantWebSocketAPIService());
-    getIt.registerLazySingleton<NotificationService>(() => NotificationService());
+    getIt.registerLazySingleton<ForegroundTaskService>(
+        () => ForegroundTaskService());
+    getIt.registerLazySingleton<HomeAssistantWebSocketAPIService>(
+        () => HomeAssistantWebSocketAPIService());
+    getIt.registerLazySingleton<NotificationService>(
+        () => NotificationService());
     getIt.registerLazySingleton<EncryptionService>(() => EncryptionService());
 
-
     getIt.registerLazySingleton<DatabaseManager>(() => DatabaseManager());
+    getIt.registerLazySingleton<SharedPreferencesManager>(
+            () => SharedPreferencesManager());
 
-    getIt.registerLazySingleton<MessagePipelineManager>(() => MessagePipelineManager());
-    getIt.registerLazySingleton<MessageHandlerEvent>(() => MessageHandlerEvent());
-    getIt.registerLazySingleton<MessageHandlerRegisteredSmartPlug>(() => MessageHandlerRegisteredSmartPlug());
-    getIt.registerLazySingleton<MessageHandlerDeviceClassAttribute>(() => MessageHandlerDeviceClassAttribute());
-    getIt.registerLazySingleton<MessageHandlerNewEntry>(() => MessageHandlerNewEntry());
-    getIt.registerLazySingleton<MessageHandlerNotification>(() => MessageHandlerNotification());
+    getIt.registerLazySingleton<MessagePipelineManager>(
+        () => MessagePipelineManager());
+    getIt.registerLazySingleton<MessageHandlerEvent>(
+        () => MessageHandlerEvent());
+    getIt.registerLazySingleton<MessageHandlerRegisteredSmartPlug>(
+        () => MessageHandlerRegisteredSmartPlug());
+    getIt.registerLazySingleton<MessageHandlerDeviceClassAttribute>(
+        () => MessageHandlerDeviceClassAttribute());
+    getIt.registerLazySingleton<MessageHandlerNewEntry>(
+        () => MessageHandlerNewEntry());
+    getIt.registerLazySingleton<MessageHandlerNotification>(
+        () => MessageHandlerNotification());
   }
-
-
 }
-

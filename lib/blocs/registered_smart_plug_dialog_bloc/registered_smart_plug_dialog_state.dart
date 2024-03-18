@@ -8,17 +8,12 @@ class EditRegisteredSmartPlugDialogOpen extends RegisteredSmartPlugDialogState {
   EditRegisteredSmartPlugDialogOpen(this.registeredSmartPlug);
 }
 
-class NewRegisteredSmartPlugDialogOpen extends RegisteredSmartPlugDialogState {
-}
+class NewRegisteredSmartPlugDialogOpen extends RegisteredSmartPlugDialogState {}
 
 class RegisteredSmartPlugDialogClosed extends RegisteredSmartPlugDialogState {}
 
-class NewRegisteredSmartPlugAdded extends RegisteredSmartPlugDialogState {
-}
+class NewRegisteredSmartPlugAdded extends RegisteredSmartPlugDialogState {}
 
-class RegisteredSmartPlugUpdated extends RegisteredSmartPlugDialogState {
-}
+class RegisteredSmartPlugUpdated extends RegisteredSmartPlugDialogState {}
 
-class RegisteredSmartPlugDeleted extends RegisteredSmartPlugDialogState {
-}
-
+class RegisteredSmartPlugDeleted extends RegisteredSmartPlugDialogState {}

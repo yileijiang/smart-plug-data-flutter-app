@@ -4,15 +4,15 @@ import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:smart_plug_data/foreground_task/foreground_task_handler.dart';
 
 class ForegroundTaskService {
-
   ReceivePort? _receivePort;
 
-   void initForegroundTask() {
+  void initForegroundTask() {
     FlutterForegroundTask.init(
       androidNotificationOptions: AndroidNotificationOptions(
         channelId: 'foreground_service',
         channelName: 'Foreground Service Notification',
-        channelDescription: 'This notification appears when the foreground service is running.',
+        channelDescription:
+            'This notification appears when the foreground service is running.',
         channelImportance: NotificationChannelImportance.LOW,
         priority: NotificationPriority.LOW,
         iconData: const NotificationIconData(
@@ -37,19 +37,19 @@ class ForegroundTaskService {
     );
   }
 
-   Future<void> startForegroundTask() async {
-     await FlutterForegroundTask.startService(
+  Future<void> startForegroundTask() async {
+    await FlutterForegroundTask.startService(
       notificationTitle: 'Home Assistant API Connection',
       notificationText: 'Tap to return to the app',
       callback: startCallback,
     );
 
-     _registerReceivePort();
+    _registerReceivePort();
   }
 
-   Future<void> stopForegroundTask() async {
-      await FlutterForegroundTask.stopService();
-      _closeReceivePort();
+  Future<void> stopForegroundTask() async {
+    await FlutterForegroundTask.stopService();
+    _closeReceivePort();
   }
 
   ReceivePort? getReceivePort() {
@@ -64,9 +64,4 @@ class ForegroundTaskService {
     _receivePort?.close();
     _receivePort = null;
   }
-
-
-
-
-
 }

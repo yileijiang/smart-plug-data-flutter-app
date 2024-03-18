@@ -8,14 +8,14 @@ class OpenSmartPlugEntryDialog extends SmartPlugEntryDialogEvent {
   OpenSmartPlugEntryDialog(this.smartPlugEntry);
 }
 
-class OpenSmartPlugEntryDialogFromNotification extends SmartPlugEntryDialogEvent {
+class OpenSmartPlugEntryDialogFromNotification
+    extends SmartPlugEntryDialogEvent {
   final String? payload;
 
   OpenSmartPlugEntryDialogFromNotification(this.payload);
 }
 
-class CloseSmartPlugEntryDialog extends SmartPlugEntryDialogEvent {
-}
+class CloseSmartPlugEntryDialog extends SmartPlugEntryDialogEvent {}
 
 class UpdateSmartPlugEntry extends SmartPlugEntryDialogEvent {
   final SmartPlugEntry smartPlugEntry;
@@ -29,4 +29,3 @@ class DeleteSmartPlugEntry extends SmartPlugEntryDialogEvent {
 
   DeleteSmartPlugEntry(this.smartPlugEntry);
 }
-

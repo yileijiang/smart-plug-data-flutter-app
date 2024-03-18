@@ -12,7 +12,8 @@ class SmartPlugEntryDialogBloc
   SmartPlugEntryDialogBloc({required this.smartPlugEntriesRepository})
       : super(SmartPlugEntryDialogClosed()) {
     on<OpenSmartPlugEntryDialog>(_mapOpenSmartPlugEntryDialogEventToState);
-    on<OpenSmartPlugEntryDialogFromNotification>(_mapOpenSmartPlugEntryDialogFromNotificationEventToState);
+    on<OpenSmartPlugEntryDialogFromNotification>(
+        _mapOpenSmartPlugEntryDialogFromNotificationEventToState);
     on<CloseSmartPlugEntryDialog>(_mapCloseSmartPlugEntryDialogEventToState);
     on<UpdateSmartPlugEntry>(_mapUpdateSmartPlugEntryEventToState);
     on<DeleteSmartPlugEntry>(_mapDeleteSmartPlugEntryEventToState);
@@ -23,18 +24,20 @@ class SmartPlugEntryDialogBloc
     emit(SmartPlugEntryDialogOpen(event.smartPlugEntry));
   }
 
-  void _mapOpenSmartPlugEntryDialogFromNotificationEventToState(OpenSmartPlugEntryDialogFromNotification event,
+  void _mapOpenSmartPlugEntryDialogFromNotificationEventToState(
+      OpenSmartPlugEntryDialogFromNotification event,
       Emitter<SmartPlugEntryDialogState> emit) async {
     int entryId = int.parse(event.payload!);
-    SmartPlugEntry? smartPlugEntry = await smartPlugEntriesRepository.getSmartPlugEntryByEntryId(entryId);
+    SmartPlugEntry? smartPlugEntry =
+        await smartPlugEntriesRepository.getSmartPlugEntryByEntryId(entryId);
 
     if (smartPlugEntry != null) {
       emit(SmartPlugEntryDialogOpen(smartPlugEntry));
     }
-
   }
 
-  void _mapCloseSmartPlugEntryDialogEventToState(CloseSmartPlugEntryDialog event,
+  void _mapCloseSmartPlugEntryDialogEventToState(
+      CloseSmartPlugEntryDialog event,
       Emitter<SmartPlugEntryDialogState> emit) async {
     emit(SmartPlugEntryDialogClosed());
   }

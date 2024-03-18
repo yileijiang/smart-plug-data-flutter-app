@@ -50,7 +50,7 @@ class NotificationService {
 
   void _launchDialogWhenAppOpenedFromNotification() async {
     var notificationAppLaunchDetails =
-    await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+        await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
     if (notificationAppLaunchDetails!.didNotificationLaunchApp) {
       final notificationResponse =
           notificationAppLaunchDetails.notificationResponse;

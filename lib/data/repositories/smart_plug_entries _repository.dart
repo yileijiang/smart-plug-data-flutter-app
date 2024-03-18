@@ -20,37 +20,36 @@ class SmartPlugEntriesRepository {
 
   Future<SmartPlugEntry?> getSmartPlugEntryByEntryId(int entryId) async {
     SmartPlugEntry? smartPlugEntry =
-    await (_database.select(_database
-            .smartPlugEntries)..where((entry) =>
-        entry.entryId.equals(entryId)))
-        .getSingleOrNull();
+        await (_database.select(_database.smartPlugEntries)
+              ..where((entry) => entry.entryId.equals(entryId)))
+            .getSingleOrNull();
 
     return smartPlugEntry;
   }
 
-  Future<int> createSmartPlugEntry(String homeAssistantEntityId , DateTime timeStamp, double state, String deviceClass) async {
+  Future<int> createSmartPlugEntry(String homeAssistantEntityId,
+      DateTime timeStamp, double state, String deviceClass) async {
     final newSmartPlugEntry = SmartPlugEntriesCompanion(
-      homeAssistantEntityId: Value(homeAssistantEntityId),
-      timeStamp: Value(timeStamp),
-      state: Value(state),
-      deviceClass: Value(deviceClass)
-    );
+        homeAssistantEntityId: Value(homeAssistantEntityId),
+        timeStamp: Value(timeStamp),
+        state: Value(state),
+        deviceClass: Value(deviceClass));
 
-    return await _database.into(_database.smartPlugEntries).insert(newSmartPlugEntry);
+    return await _database
+        .into(_database.smartPlugEntries)
+        .insert(newSmartPlugEntry);
   }
 
   Future<void> updateSmartPlugEntry(
       SmartPlugEntry smartPlugEntry, String label) async {
-    await (_database
-            .update(_database.smartPlugEntries)
+    await (_database.update(_database.smartPlugEntries)
           ..where((entry) => entry.entryId.equals(smartPlugEntry.entryId)))
         .write(SmartPlugEntriesCompanion(label: Value(label)));
   }
 
   Future<void> deleteSmartPlugEntry(SmartPlugEntry smartPlugEntry) async {
-    await (_database
-        .delete(_database.smartPlugEntries)
-      ..where((entry) => entry.entryId.equals(smartPlugEntry.entryId)))
-      .go();
+    await (_database.delete(_database.smartPlugEntries)
+          ..where((entry) => entry.entryId.equals(smartPlugEntry.entryId)))
+        .go();
   }
 }

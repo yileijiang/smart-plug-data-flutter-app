@@ -10,8 +10,7 @@ class SmartPlugEntriesLoaded extends SmartPlugEntriesState {
   SmartPlugEntriesLoaded(this.entries);
 }
 
-class SmartPlugEntriesEmpty extends SmartPlugEntriesState {
-}
+class SmartPlugEntriesEmpty extends SmartPlugEntriesState {}
 
 class SmartPlugEntriesError extends SmartPlugEntriesState {
   final String errorMessage;

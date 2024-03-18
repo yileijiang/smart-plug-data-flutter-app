@@ -1,4 +1,3 @@
-
 abstract class DataSharingDialogState {}
 
 class DataSharingDialogOpen extends DataSharingDialogState {}
@@ -10,5 +9,3 @@ class DataDownloadSuccess extends DataSharingDialogState {
 
   DataDownloadSuccess(this.path);
 }
-
-

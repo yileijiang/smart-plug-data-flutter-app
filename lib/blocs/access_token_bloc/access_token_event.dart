@@ -1,7 +1,6 @@
 abstract class AccessTokenEvent {}
 
-class LoadAccessToken extends AccessTokenEvent {
-}
+class LoadAccessToken extends AccessTokenEvent {}
 
 class EditAccessToken extends AccessTokenEvent {
   String accessToken;
@@ -14,4 +13,3 @@ class SaveAccessToken extends AccessTokenEvent {
 
   SaveAccessToken(this.accessToken);
 }
-

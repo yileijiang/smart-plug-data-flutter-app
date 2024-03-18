@@ -40,10 +40,13 @@ class RegisteredSmartPlugDialogBloc extends Bloc<RegisteredSmartPlugDialogEvent,
     emit(RegisteredSmartPlugDialogClosed());
   }
 
-  void _mapNewRegisteredSmartPlugEventToState(
-      AddNewRegisteredSmartPlug event,
+  void _mapNewRegisteredSmartPlugEventToState(AddNewRegisteredSmartPlug event,
       Emitter<RegisteredSmartPlugDialogState> emit) async {
     try {
+      if (_areStringsEmpty(
+          event.homeAssistantEntityId, event.deviceClassAttribute)) {
+        return;
+      }
       await registeredSmartPlugsRepository.createRegisteredSmartPlug(
           event.homeAssistantEntityId,
           event.deviceClassAttribute,
@@ -53,7 +56,8 @@ class RegisteredSmartPlugDialogBloc extends Bloc<RegisteredSmartPlugDialogEvent,
       emit(RegisteredSmartPlugDialogClosed());
     } on DatabaseException catch (e) {
       if (e.isUniqueConstraintError()) {
-        ToastUtils.showErrorToast('Error: Home Assistant Entity Id already exists');
+        ToastUtils.showErrorToast(
+            'Error: Home Assistant Entity Id already exists');
       } else {
         ToastUtils.showErrorToast('Error adding new smart plug');
       }
@@ -64,6 +68,10 @@ class RegisteredSmartPlugDialogBloc extends Bloc<RegisteredSmartPlugDialogEvent,
       UpdateRegisteredSmartPlug event,
       Emitter<RegisteredSmartPlugDialogState> emit) async {
     try {
+      if (_areStringsEmpty(
+          event.homeAssistantEntityId, event.deviceClassAttribute)) {
+        return;
+      }
       await registeredSmartPlugsRepository.updateRegisteredSmartPlug(
           event.registeredSmartPlug,
           event.homeAssistantEntityId,
@@ -74,7 +82,8 @@ class RegisteredSmartPlugDialogBloc extends Bloc<RegisteredSmartPlugDialogEvent,
       emit(RegisteredSmartPlugDialogClosed());
     } on DatabaseException catch (e) {
       if (e.isUniqueConstraintError()) {
-        ToastUtils.showErrorToast('Error: Home Assistant Entity Id already exists');
+        ToastUtils.showErrorToast(
+            'Error: Home Assistant Entity Id already exists');
       } else {
         ToastUtils.showErrorToast('Error updating smart plug');
       }
@@ -95,4 +104,18 @@ class RegisteredSmartPlugDialogBloc extends Bloc<RegisteredSmartPlugDialogEvent,
     }
   }
 
+  bool _areStringsEmpty(
+      String homeAssistantEntityId, String deviceClassAttribute) {
+    if (homeAssistantEntityId.isEmpty) {
+      ToastUtils.showErrorToast('Please provide a Home Assistant entity Id');
+      return true;
+    }
+
+    if (deviceClassAttribute.isEmpty) {
+      ToastUtils.showErrorToast('Please provide a device class attribute');
+      return true;
+    }
+
+    return false;
+  }
 }

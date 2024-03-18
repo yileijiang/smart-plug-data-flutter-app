@@ -6,17 +6,21 @@ import 'package:smart_plug_data/services/message_pipeline_service/handlers/messa
 import 'package:smart_plug_data/services/message_pipeline_service/handlers/message_handler_notification.dart';
 import 'package:smart_plug_data/services/message_pipeline_service/handlers/message_handler_registered_smart_plug.dart';
 
-
 class MessagePipelineManager {
   MessageHandler messageHandlerEvent = GetIt.instance<MessageHandlerEvent>();
-  MessageHandler messageHandlerRegisteredSmartPlug = GetIt.instance<MessageHandlerRegisteredSmartPlug>();
-  MessageHandler messageHandlerDeviceClassAttribute = GetIt.instance<MessageHandlerDeviceClassAttribute>();
-  MessageHandler messageHandlerNewEntry = GetIt.instance<MessageHandlerNewEntry>();
-  MessageHandler messageHandlerNotification = GetIt.instance<MessageHandlerNotification>();
+  MessageHandler messageHandlerRegisteredSmartPlug =
+      GetIt.instance<MessageHandlerRegisteredSmartPlug>();
+  MessageHandler messageHandlerDeviceClassAttribute =
+      GetIt.instance<MessageHandlerDeviceClassAttribute>();
+  MessageHandler messageHandlerNewEntry =
+      GetIt.instance<MessageHandlerNewEntry>();
+  MessageHandler messageHandlerNotification =
+      GetIt.instance<MessageHandlerNotification>();
 
   MessageHandler setUpPipeline() {
     messageHandlerEvent.setNext(messageHandlerRegisteredSmartPlug);
-    messageHandlerRegisteredSmartPlug.setNext(messageHandlerDeviceClassAttribute);
+    messageHandlerRegisteredSmartPlug
+        .setNext(messageHandlerDeviceClassAttribute);
     messageHandlerDeviceClassAttribute.setNext(messageHandlerNewEntry);
     messageHandlerNewEntry.setNext(messageHandlerNotification);
 

@@ -31,6 +31,7 @@ class SmartPlugEntriesListWidget extends StatelessWidget {
                 return const Center(child: CircularProgressIndicator());
               } else if (state is SmartPlugEntriesLoaded) {
                 return ListView.separated(
+                  physics: const AlwaysScrollableScrollPhysics(),
                   itemCount: state.entries.length,
                   separatorBuilder: (context, index) => const Divider(),
                   itemBuilder: (context, index) {
@@ -64,17 +65,41 @@ class SmartPlugEntriesListWidget extends StatelessWidget {
                   },
                 );
               } else if (state is SmartPlugEntriesError) {
-                return Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Text(
-                      'Error: ${state.errorMessage}',
-                      textAlign: TextAlign.center,
+                return CustomScrollView(
+                  slivers: [
+                    SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: Column(
+                        children: <Widget>[
+                          Expanded(
+                            child: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Center(
+                                  child: Text(
+                                    'Error: ${state.errorMessage}',
+                                    textAlign: TextAlign.center,
+                                  ),
+                                )),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
+                  ],
                 );
               } else if (state is SmartPlugEntriesEmpty) {
-                return const Center(child: Text('No entries yet.'));
+                return const CustomScrollView(
+                  slivers: [
+                    SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: Column(
+                        children: <Widget>[
+                          Expanded(
+                              child: Center(child: Text('No entries yet.'))),
+                        ],
+                      ),
+                    ),
+                  ],
+                );
               } else {
                 return const SizedBox(); // Initial state
               }

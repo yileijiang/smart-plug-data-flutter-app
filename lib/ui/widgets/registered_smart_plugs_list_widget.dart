@@ -12,10 +12,14 @@ class RegisteredSmartPlugsListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<RegisteredSmartPlugDialogBloc, RegisteredSmartPlugDialogState>(
+    return BlocListener<RegisteredSmartPlugDialogBloc,
+        RegisteredSmartPlugDialogState>(
       listener: (context, state) {
-        if (state is RegisteredSmartPlugUpdated || state is RegisteredSmartPlugDeleted || state is NewRegisteredSmartPlugAdded) {
-          BlocProvider.of<RegisteredSmartPlugsBloc>(context).add(FetchRegisteredSmartPlugs());
+        if (state is RegisteredSmartPlugUpdated ||
+            state is RegisteredSmartPlugDeleted ||
+            state is NewRegisteredSmartPlugAdded) {
+          BlocProvider.of<RegisteredSmartPlugsBloc>(context)
+              .add(FetchRegisteredSmartPlugs());
         }
       },
       child: BlocBuilder<RegisteredSmartPlugsBloc, RegisteredSmartPlugsState>(
@@ -30,9 +34,7 @@ class RegisteredSmartPlugsListWidget extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final smartPlug = state.registeredSmartPlugs[index];
                   return ListTile(
-                      title: Text(
-                        smartPlug.homeAssistantEntityId
-                      ),
+                      title: Text(smartPlug.homeAssistantEntityId),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -42,23 +44,31 @@ class RegisteredSmartPlugsListWidget extends StatelessWidget {
                           Row(
                             children: [
                               Text(
-                                smartPlug.getNotifications ? 'Notifications active' : 'Notifications inactive',
+                                smartPlug.getNotifications
+                                    ? 'Notifications active'
+                                    : 'Notifications inactive',
                               ),
                               const SizedBox(width: 4),
                               Icon(
-                                size: Theme.of(context).textTheme.bodyLarge?.fontSize,
-                                smartPlug.getNotifications ? Icons.notifications_active : Icons.notifications_off,
-                              ),
+                                  size: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.fontSize,
+                                  smartPlug.getNotifications
+                                      ? Icons.notifications_active
+                                      : Icons.notifications_off,
+                                  color: Colors.black),
                             ],
                           )
-
                         ],
                       ),
                       trailing: IconButton(
                         icon: const Icon(Icons.edit),
                         onPressed: () {
-                          BlocProvider.of<RegisteredSmartPlugDialogBloc>(context)
-                              .add(OpenEditRegisteredSmartPlugDialog(smartPlug));
+                          BlocProvider.of<RegisteredSmartPlugDialogBloc>(
+                                  context)
+                              .add(
+                                  OpenEditRegisteredSmartPlugDialog(smartPlug));
                         },
                       ));
                 },

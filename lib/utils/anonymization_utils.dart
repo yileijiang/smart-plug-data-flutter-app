@@ -8,15 +8,19 @@ class AnonymizationUtils {
     int currentNumber = 1;
 
     for (SmartPlugEntry entry in smartPlugEntries) {
-      if (!homeAssistantEntityIdToNumber.containsKey(entry.homeAssistantEntityId)) {
-        homeAssistantEntityIdToNumber[entry.homeAssistantEntityId] = currentNumber;
+      if (!homeAssistantEntityIdToNumber
+          .containsKey(entry.homeAssistantEntityId)) {
+        homeAssistantEntityIdToNumber[entry.homeAssistantEntityId] =
+            currentNumber;
         currentNumber++;
       }
 
-      anonymizedSmartPlugEntries.add(entry.copyWith(homeAssistantEntityId: homeAssistantEntityIdToNumber[entry.homeAssistantEntityId].toString()));
+      anonymizedSmartPlugEntries.add(entry.copyWith(
+          homeAssistantEntityId:
+              homeAssistantEntityIdToNumber[entry.homeAssistantEntityId]
+                  .toString()));
     }
 
     return anonymizedSmartPlugEntries;
-
   }
 }

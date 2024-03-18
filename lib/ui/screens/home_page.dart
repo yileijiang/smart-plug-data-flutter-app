@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:smart_plug_data/blocs/data_sharing_dialog_bloc/data_sharing_dialog_bloc.dart';
-import 'package:smart_plug_data/blocs/data_sharing_dialog_bloc/data_sharing_dialog_event.dart';
 import 'package:smart_plug_data/blocs/smart_plug_entries_bloc/smart_plug_entries_bloc.dart';
 import 'package:smart_plug_data/blocs/smart_plug_entries_bloc/smart_plug_entries_event.dart';
 import 'package:smart_plug_data/blocs/smart_plug_entry_dialog_bloc/smart_plug_entry_dialog_bloc.dart';
@@ -37,7 +35,7 @@ class HomePage extends StatelessWidget {
           BlocProvider<DataSharingDialogBloc>(
             create: (context) => DataSharingDialogBloc(
               smartPlugEntriesRepository:
-              context.read<SmartPlugEntriesRepository>(),
+                  context.read<SmartPlugEntriesRepository>(),
             ),
           ),
         ],
@@ -49,14 +47,14 @@ class HomePage extends StatelessWidget {
             body: Column(
               children: <Widget>[
                 Container(
-                  color: Colors.blue,
+                  color: Colors.black26,
                   alignment: Alignment.center,
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Pull Down To Refresh',
-                        style: TextStyle(fontSize: 18, color: Colors.white),
+                        'Pull Down To Refresh List',
+                        style: TextStyle(fontSize: 14, color: Colors.white),
                       ),
                     ],
                   ),

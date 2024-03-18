@@ -8,19 +8,17 @@ class OpenEditRegisteredSmartPlugDialog extends RegisteredSmartPlugDialogEvent {
   OpenEditRegisteredSmartPlugDialog(this.registeredSmartPlug);
 }
 
+class OpenNewRegisteredSmartPlugDialog extends RegisteredSmartPlugDialogEvent {}
 
-class OpenNewRegisteredSmartPlugDialog extends RegisteredSmartPlugDialogEvent {
-}
-
-class CloseRegisteredSmartPlugDialog extends RegisteredSmartPlugDialogEvent {
-}
+class CloseRegisteredSmartPlugDialog extends RegisteredSmartPlugDialogEvent {}
 
 class AddNewRegisteredSmartPlug extends RegisteredSmartPlugDialogEvent {
   final String homeAssistantEntityId;
   final String deviceClassAttribute;
   final bool getNotificationsBoolean;
 
-  AddNewRegisteredSmartPlug(this.homeAssistantEntityId, this.deviceClassAttribute, this.getNotificationsBoolean);
+  AddNewRegisteredSmartPlug(this.homeAssistantEntityId,
+      this.deviceClassAttribute, this.getNotificationsBoolean);
 }
 
 class UpdateRegisteredSmartPlug extends RegisteredSmartPlugDialogEvent {
@@ -29,7 +27,11 @@ class UpdateRegisteredSmartPlug extends RegisteredSmartPlugDialogEvent {
   final String deviceClassAttribute;
   final bool getNotificationsBoolean;
 
-  UpdateRegisteredSmartPlug(this.registeredSmartPlug, this.homeAssistantEntityId, this.deviceClassAttribute, this.getNotificationsBoolean);
+  UpdateRegisteredSmartPlug(
+      this.registeredSmartPlug,
+      this.homeAssistantEntityId,
+      this.deviceClassAttribute,
+      this.getNotificationsBoolean);
 }
 
 class DeleteRegisteredSmartPlug extends RegisteredSmartPlugDialogEvent {
@@ -37,4 +39,3 @@ class DeleteRegisteredSmartPlug extends RegisteredSmartPlugDialogEvent {
 
   DeleteRegisteredSmartPlug(this.registeredSmartPlug);
 }
-

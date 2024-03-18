@@ -43,11 +43,11 @@ class DataSharingDialog extends StatelessWidget {
                         canRequestFocus: true,
                         decoration: const InputDecoration(
                           labelText: 'File Name',
-                          hintText: 'Enter File Name',
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(color: Colors.blue),
+                            borderSide: BorderSide(color: Colors.grey),
                           ),
+                          hintText: 'Enter File Name',
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             borderSide: BorderSide(color: Colors.blue),
@@ -64,7 +64,7 @@ class DataSharingDialog extends StatelessWidget {
                           hintText: 'Enter Encryption Password',
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(color: Colors.blue),
+                            borderSide: BorderSide(color: Colors.grey),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -74,24 +74,27 @@ class DataSharingDialog extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const Flexible(
+                  Flexible(
                     child: Card(
                       elevation: 4.0,
                       child: Padding(
-                        padding: EdgeInsets.all(10.0),
+                        padding: const EdgeInsets.all(10.0),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Icon(Icons.info_outline),
-                            SizedBox(width: 10.0),
-                            Expanded(
+                            Icon(
+                              Icons.info_outline,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                            const SizedBox(width: 10.0),
+                            const Expanded(
                               child: Scrollbar(
                                 thumbVisibility: true,
                                 child: SingleChildScrollView(
                                   child: Column(
                                     children: [
                                       Text(
-                                        'Home Assistant Entity Ids are anonymized. Entries are AES encrypted with the provided password, and saved in JSON format as \'file_name.aes\' in the downloads folder. Entries can be shared after downloading.',
+                                        'Home Assistant entity Ids are anonymized. Entries are AES encrypted with the provided password, and saved in JSON format as \'file_name.aes\' in the downloads folder. Entries can be shared after downloading.',
                                       ),
                                       SizedBox(height: 10.0),
                                       ListTile(
@@ -99,13 +102,10 @@ class DataSharingDialog extends StatelessWidget {
                                             EdgeInsets.symmetric(horizontal: 0),
                                         title: Text(
                                           'Example Entry',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
+                                          style: TextStyle(color: Colors.black),
                                         ),
-                                        subtitle:
-                                            // TODO: change data to proper entry
-                                            Text(
-                                                """{\n "entryId":"100",\n homeAssistantEntityId":"1", \n "timeStamp":"2023-08-25 13:10:43.000",\n "state":"9.474", \n "deviceClass":"current", \n "label":"running dishwasher" \n}"""),
+                                        subtitle: Text(
+                                            """{\n "entryId":"100",\n homeAssistantEntityId":"1", \n "timeStamp":"2023-08-25 13:10:43.000",\n "state":"9.474", \n "deviceClass":"current", \n "label":"running dishwasher" \n}"""),
                                       ),
                                     ],
                                   ),

@@ -26,7 +26,6 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     BlocProvider.of<HomeAssistantConnectionBloc>(context)
         .add(LoadConnectionStatus());
 
@@ -74,8 +73,7 @@ class SettingsPage extends StatelessWidget {
                   }
                 },
               ),
-              BlocListener<NotificationsSettingBloc,
-                  NotificationsSettingState>(
+              BlocListener<NotificationsSettingBloc, NotificationsSettingState>(
                 listener: (context, state) {
                   if (state is NotificationsSettingLoaded) {
                     BlocProvider.of<SettingsPageBloc>(context)
@@ -102,12 +100,15 @@ class SettingsPage extends StatelessWidget {
               } else if (state is AllWidgetsLoaded) {
                 return const Center(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    padding: EdgeInsets.all(16.0),
                     child: Column(
                       children: <Widget>[
                         HomeAssistantAddressWidget(),
+                        SizedBox(height: 20),
                         AccessTokenWidget(),
+                        SizedBox(height: 20),
                         NotificationsSwitchWidget(),
+                        SizedBox(height: 20),
                         HomeAssistantConnectionWidget(),
                       ],
                     ),

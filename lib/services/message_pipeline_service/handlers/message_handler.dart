@@ -1,5 +1,5 @@
 import 'package:smart_plug_data/data/database/database.dart';
-// TODO: refactor class and structure it
+
 abstract class MessageHandler {
   MessageHandler? next;
   static late RegisteredSmartPlug registeredSmartPlug;

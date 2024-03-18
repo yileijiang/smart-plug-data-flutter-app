@@ -6,11 +6,16 @@ import 'package:smart_plug_data/services/notification_service.dart';
 class MessageHandlerNotification extends MessageHandler {
   @override
   Future<void> handle(Map<String, dynamic> message) async {
-    bool notificationsSetting = await GetIt.instance<SettingsRepository>().getNotificationsSetting();
-    bool notificationsThisEntity = MessageHandler.registeredSmartPlug.getNotifications;
+    bool notificationsSetting =
+        await GetIt.instance<SettingsRepository>().getNotificationsSetting();
+    bool notificationsThisEntity =
+        MessageHandler.registeredSmartPlug.getNotifications;
 
-    if (notificationsSetting && notificationsThisEntity!) {
-      GetIt.instance<NotificationService>().showNotification('Smart Plug Activity', 'for ${MessageHandler.registeredSmartPlug.homeAssistantEntityId}', MessageHandler.entryId.toString());
+    if (notificationsSetting && notificationsThisEntity) {
+      GetIt.instance<NotificationService>().showNotification(
+          'Smart Plug Activity',
+          'for ${MessageHandler.registeredSmartPlug.homeAssistantEntityId}',
+          MessageHandler.entryId.toString());
     }
 
     next?.handle(message);

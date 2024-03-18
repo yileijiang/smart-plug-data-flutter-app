@@ -12,9 +12,10 @@ class AccessTokenWidget extends StatelessWidget {
     late TextEditingController textEditingController;
     return Column(
       children: [
-        const Row(
+        Row(
           children: [
             Text(
+              style: Theme.of(context).textTheme.titleMedium,
               'Access Token',
             ),
           ],

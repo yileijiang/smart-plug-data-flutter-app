@@ -57,7 +57,21 @@ class DataSharingDialogBloc
           await smartPlugEntriesRepository.getSmartPlugEntries();
       List<SmartPlugEntry> anonymizedSmartPlugEntries =
           AnonymizationUtils.anonymizeHomeAssistantEntityIds(smartPlugEntries);
-      String smartPlugEntriesJson = jsonEncode(anonymizedSmartPlugEntries);
+
+      String smartPlugEntriesJson =
+          jsonEncode(anonymizedSmartPlugEntries, toEncodable: (value) {
+        if (value is SmartPlugEntry) {
+          return <String, dynamic>{
+            'entryId': value.entryId.toString(),
+            'homeAssistantEntityId': value.homeAssistantEntityId.toString(),
+            'timeStamp': value.timeStamp.toIso8601String(),
+            'state': value.state.toString(),
+            'deviceClass': value.deviceClass.toString(),
+            'label': value.label.toString(),
+          };
+        }
+      });
+
       String path = GetIt.instance<EncryptionService>()
           .encryptDataAndSaveToFile(smartPlugEntriesJson, fileDirectory.path,
               event.fileName, event.encryptionPassword);
@@ -73,8 +87,7 @@ class DataSharingDialogBloc
   void _mapShareDataEventToState(
       ShareData event, Emitter<DataSharingDialogState> emit) async {
     try {
-      final result = await Share.shareXFiles(
-          [XFile(event.path)],
+      final result = await Share.shareXFiles([XFile(event.path)],
           text:
               'Attachment contains AES encrypted smart plug data entries in JSON format. The file can be decrypted with the password and any software using the AES Crypt standard file format. More information on AES Crypt can be found at https://www.aescrypt.com/',
           subject: 'Smart Plug Data Entries');

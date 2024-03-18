@@ -8,27 +8,26 @@ import 'package:smart_plug_data/data/database/database.dart';
 class RegisteredSmartPlugsRepository {
   final _database = GetIt.instance<DatabaseManager>().database;
 
-
   Future<List<RegisteredSmartPlug>> getRegisteredSmartPlugs() async {
     List<RegisteredSmartPlug> registeredSmartPlugs =
-        await (_database.select(_database
-                    .registeredSmartPlugs))
-            .get();
+        await (_database.select(_database.registeredSmartPlugs)).get();
 
     return registeredSmartPlugs;
   }
 
-  Future<RegisteredSmartPlug?> getRegisteredSmartPlugByHomeAssistantEntityId(String homeAssistantEntityId) async {
-    RegisteredSmartPlug? registeredSmartPlug =
-    await (_database.select(_database
-            .registeredSmartPlugs)..where((smartPlug) =>
-        smartPlug.homeAssistantEntityId.equals(homeAssistantEntityId)))
+  Future<RegisteredSmartPlug?> getRegisteredSmartPlugByHomeAssistantEntityId(
+      String homeAssistantEntityId) async {
+    RegisteredSmartPlug? registeredSmartPlug = await (_database
+            .select(_database.registeredSmartPlugs)
+          ..where((smartPlug) =>
+              smartPlug.homeAssistantEntityId.equals(homeAssistantEntityId)))
         .getSingleOrNull();
 
     return registeredSmartPlug;
   }
 
-  Future<void> createRegisteredSmartPlug(String homeAssistantEntityId , String deviceClassAttribute, bool getNotificationsBoolean) async {
+  Future<void> createRegisteredSmartPlug(String homeAssistantEntityId,
+      String deviceClassAttribute, bool getNotificationsBoolean) async {
     final newSmartPlug = RegisteredSmartPlugsCompanion(
       homeAssistantEntityId: Value(homeAssistantEntityId),
       deviceClassAttribute: Value(deviceClassAttribute),
@@ -54,9 +53,9 @@ class RegisteredSmartPlugsRepository {
 
   Future<void> deleteRegisteredSmartPlug(
       RegisteredSmartPlug registeredSmartPlug) async {
-    await (_database
-        .delete(_database.registeredSmartPlugs)
-      ..where((smartPlug) =>
-          smartPlug.smartPlugId.equals(registeredSmartPlug.smartPlugId))).go();
+    await (_database.delete(_database.registeredSmartPlugs)
+          ..where((smartPlug) =>
+              smartPlug.smartPlugId.equals(registeredSmartPlug.smartPlugId)))
+        .go();
   }
 }

@@ -1,7 +1,6 @@
 abstract class HomeAssistantAddressEvent {}
 
-class LoadHomeAssistantAddress extends HomeAssistantAddressEvent {
-}
+class LoadHomeAssistantAddress extends HomeAssistantAddressEvent {}
 
 class EditHomeAssistantAddress extends HomeAssistantAddressEvent {
   String homeAssistantAddress;
@@ -14,4 +13,3 @@ class SaveHomeAssistantAddress extends HomeAssistantAddressEvent {
 
   SaveHomeAssistantAddress(this.homeAssistantAddress);
 }
-

@@ -14,10 +14,11 @@ class NotificationsSettingBloc
     on<ToggleNotificationsSwitch>(_mapToggleNotificationsSwitchEventToState);
   }
 
-  void _mapLoadNotificationsSettingEventToState(
-      LoadNotificationsSetting event, Emitter<NotificationsSettingState> emit) async {
+  void _mapLoadNotificationsSettingEventToState(LoadNotificationsSetting event,
+      Emitter<NotificationsSettingState> emit) async {
     try {
-      final notificationsBool = await settingsRepository.getNotificationsSetting();
+      final notificationsBool =
+          await settingsRepository.getNotificationsSetting();
       emit(NotificationsSettingLoaded(notificationsBool));
     } catch (e) {
       emit(NotificationsSettingLoaded(false));
@@ -26,14 +27,15 @@ class NotificationsSettingBloc
   }
 
   void _mapToggleNotificationsSwitchEventToState(
-      ToggleNotificationsSwitch event, Emitter<NotificationsSettingState> emit) async {
+      ToggleNotificationsSwitch event,
+      Emitter<NotificationsSettingState> emit) async {
     try {
-      await settingsRepository.saveNotificationsSetting(event.notificationsBool);
+      await settingsRepository
+          .saveNotificationsSetting(event.notificationsBool);
       emit(NotificationsSettingLoaded(event.notificationsBool));
       ToastUtils.showSuccessToast('Notifications setting updated');
     } catch (e) {
       ToastUtils.showErrorToast('Error updating notifications setting');
     }
-
   }
 }

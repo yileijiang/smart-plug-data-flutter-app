@@ -10,8 +10,7 @@ class RegisteredSmartPlugsLoaded extends RegisteredSmartPlugsState {
   RegisteredSmartPlugsLoaded(this.registeredSmartPlugs);
 }
 
-class RegisteredSmartPlugsEmpty extends RegisteredSmartPlugsState {
-}
+class RegisteredSmartPlugsEmpty extends RegisteredSmartPlugsState {}
 
 class RegisteredSmartPlugsError extends RegisteredSmartPlugsState {
   final String errorMessage;

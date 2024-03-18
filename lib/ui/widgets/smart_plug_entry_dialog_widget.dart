@@ -110,10 +110,11 @@ class SmartPlugEntryDialogWidgetState
             context: context,
             builder: (BuildContext newContext) {
               return BlocProvider<SmartPlugEntryDialogBloc>.value(
-                  value: context.read<SmartPlugEntryDialogBloc>(),
-              child: SmartPlugEntryDialog(
-                smartPlugEntry: state.smartPlugEntry,
-              ),);
+                value: context.read<SmartPlugEntryDialogBloc>(),
+                child: SmartPlugEntryDialog(
+                  smartPlugEntry: state.smartPlugEntry,
+                ),
+              );
             },
           );
         } else if (state is SmartPlugEntryDialogClosed) {

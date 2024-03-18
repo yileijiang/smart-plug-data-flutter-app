@@ -48,7 +48,6 @@ class HomeAssistantWebSocketAPIService {
 
   Future<void> listenToChannelMessages() async {
     channel.stream.listen((message) async {
-      print(message);
       Map<String, dynamic> messageMap = jsonDecode(message);
       _checkAuthenticationValid(messageMap);
       _processMessage(messageMap);
@@ -65,7 +64,6 @@ class HomeAssistantWebSocketAPIService {
   void subscribeToEvents() {
     channel.sink.add(Constants.eventsSubscriptionMessage);
   }
-
 
   closeForegroundTask() async {
     await settingsRepository.saveConnectionStatus(false);
@@ -85,8 +83,8 @@ class HomeAssistantWebSocketAPIService {
   }
 
   Future<void> _processMessage(Map<String, dynamic> message) async {
-    MessageHandler messageHandler = GetIt.instance<MessagePipelineManager>().setUpPipeline();
+    MessageHandler messageHandler =
+        GetIt.instance<MessagePipelineManager>().setUpPipeline();
     messageHandler.handle(message);
   }
-
 }

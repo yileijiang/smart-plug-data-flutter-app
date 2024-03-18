@@ -12,10 +12,11 @@ class HomeAssistantConnectionWidget extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        const Row(
+        Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
+              style: Theme.of(context).textTheme.titleMedium,
               'Home Assistant API Connection',
             ),
           ],

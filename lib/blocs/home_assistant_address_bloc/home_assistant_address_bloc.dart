@@ -15,10 +15,11 @@ class HomeAssistantAddressBloc
     on<SaveHomeAssistantAddress>(_mapSaveHomeAssistantAddressEventToState);
   }
 
-  void _mapLoadHomeAssistantAddressEventToState(
-      LoadHomeAssistantAddress event, Emitter<HomeAssistantAddressState> emit) async {
+  void _mapLoadHomeAssistantAddressEventToState(LoadHomeAssistantAddress event,
+      Emitter<HomeAssistantAddressState> emit) async {
     try {
-      final homeAssistantAddress = await settingsRepository.getHomeAssistantAddress();
+      final homeAssistantAddress =
+          await settingsRepository.getHomeAssistantAddress();
       emit(HomeAssistantAddressLoaded(homeAssistantAddress));
     } catch (e) {
       emit(HomeAssistantAddressLoaded(''));
@@ -26,23 +27,20 @@ class HomeAssistantAddressBloc
     }
   }
 
-
-  void _mapEditHomeAssistantAddressEventToState(
-      EditHomeAssistantAddress event, Emitter<HomeAssistantAddressState> emit) async {
+  void _mapEditHomeAssistantAddressEventToState(EditHomeAssistantAddress event,
+      Emitter<HomeAssistantAddressState> emit) async {
     emit(HomeAssistantAddressEditing(event.homeAssistantAddress));
   }
 
-  void _mapSaveHomeAssistantAddressEventToState(
-      SaveHomeAssistantAddress event, Emitter<HomeAssistantAddressState> emit) async {
+  void _mapSaveHomeAssistantAddressEventToState(SaveHomeAssistantAddress event,
+      Emitter<HomeAssistantAddressState> emit) async {
     try {
-      await settingsRepository.saveHomeAssistantAddress(event.homeAssistantAddress);
+      await settingsRepository
+          .saveHomeAssistantAddress(event.homeAssistantAddress);
       emit(HomeAssistantAddressLoaded(event.homeAssistantAddress));
       ToastUtils.showSuccessToast('Home Assistant address updated');
     } catch (e) {
       ToastUtils.showErrorToast('Error updating Home Assistant address');
     }
-
   }
-
-
 }

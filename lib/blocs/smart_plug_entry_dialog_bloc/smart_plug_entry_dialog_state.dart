@@ -10,10 +10,6 @@ class SmartPlugEntryDialogOpen extends SmartPlugEntryDialogState {
 
 class SmartPlugEntryDialogClosed extends SmartPlugEntryDialogState {}
 
+class SmartPlugEntryUpdated extends SmartPlugEntryDialogState {}
 
-class SmartPlugEntryUpdated extends SmartPlugEntryDialogState {
-}
-
-class SmartPlugEntryDeleted extends SmartPlugEntryDialogState {
-}
-
+class SmartPlugEntryDeleted extends SmartPlugEntryDialogState {}

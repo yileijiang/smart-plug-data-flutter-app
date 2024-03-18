@@ -1,7 +1,6 @@
 abstract class AccessTokenState {}
 
-class AccessTokenLoading extends AccessTokenState {
-}
+class AccessTokenLoading extends AccessTokenState {}
 
 class AccessTokenLoaded extends AccessTokenState {
   String accessToken;

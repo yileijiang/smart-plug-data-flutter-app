@@ -51,7 +51,7 @@ class HomeAssistantConnectionBloc
     final receivePort =
         GetIt.instance<ForegroundTaskService>().getReceivePort();
 
-     receivePort?.listen((message) async {
+    receivePort?.listen((message) async {
       if (message is Map) {
         if (message.containsKey('connection_error')) {
           String errorMessage = message['connection_error'];
@@ -72,7 +72,8 @@ class HomeAssistantConnectionBloc
     });
   }
 
-  void _mapUpdateConnectionStatusToConnectedEventToState(UpdateConnectionStatusToConnected event,
+  void _mapUpdateConnectionStatusToConnectedEventToState(
+      UpdateConnectionStatusToConnected event,
       Emitter<HomeAssistantConnectionState> emit) async {
     emit(Connected());
   }

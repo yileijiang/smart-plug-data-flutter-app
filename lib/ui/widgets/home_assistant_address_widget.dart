@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_plug_data/blocs/home_assistant_address_bloc/home_assistant_address_bloc.dart';
 import 'package:smart_plug_data/blocs/home_assistant_address_bloc/home_assistant_address_event.dart';
 import 'package:smart_plug_data/blocs/home_assistant_address_bloc/home_assistant_address_state.dart';
-class HomeAssistantAddressWidget extends StatelessWidget {
 
+class HomeAssistantAddressWidget extends StatelessWidget {
   const HomeAssistantAddressWidget({super.key});
 
   @override
@@ -12,9 +12,10 @@ class HomeAssistantAddressWidget extends StatelessWidget {
     late TextEditingController textEditingController;
     return Column(
       children: [
-        const Row(
+        Row(
           children: [
             Text(
+              style: Theme.of(context).textTheme.titleMedium,
               'Home Assistant Address',
             ),
           ],
@@ -26,7 +27,8 @@ class HomeAssistantAddressWidget extends StatelessWidget {
                 children: [
                   Expanded(
                     child: TextField(
-                      controller: TextEditingController(text: state.homeAssistantAddress),
+                      controller: TextEditingController(
+                          text: state.homeAssistantAddress),
                       readOnly: true,
                       autofocus: false,
                       canRequestFocus: false,
@@ -45,8 +47,9 @@ class HomeAssistantAddressWidget extends StatelessWidget {
                           icon: const Icon(Icons.edit),
                           onPressed: () {
                             context.read<HomeAssistantAddressBloc>().add(
-                              EditHomeAssistantAddress(state.homeAssistantAddress),
-                            );
+                                  EditHomeAssistantAddress(
+                                      state.homeAssistantAddress),
+                                );
                           },
                         ),
                       ),
@@ -59,7 +62,8 @@ class HomeAssistantAddressWidget extends StatelessWidget {
                 children: [
                   Expanded(
                     child: TextField(
-                      controller: textEditingController = TextEditingController(text: state.homeAssistantAddress),
+                      controller: textEditingController = TextEditingController(
+                          text: state.homeAssistantAddress),
                       readOnly: false,
                       autofocus: true,
                       canRequestFocus: true,
@@ -78,8 +82,9 @@ class HomeAssistantAddressWidget extends StatelessWidget {
                           icon: const Icon(Icons.done),
                           onPressed: () {
                             context.read<HomeAssistantAddressBloc>().add(
-                              SaveHomeAssistantAddress(textEditingController.text),
-                            );
+                                  SaveHomeAssistantAddress(
+                                      textEditingController.text),
+                                );
                           },
                         ),
                       ),
