@@ -73,10 +73,8 @@ The following steps describe how to set up and use the application, to collect s
 
 1. Set up a Home Assistant instance and integrate all smart plugs, for which data should be collected, to the platform. The integration may vary for different smart plug models.
 
-2. Open the application and navigate to the "Registered Smart Plugs" page, tap the add button and register all smart plugs entities you wish to collect data for. For each smart plug, provide the Home Assistant entity Id of the smart plug and its device class attribute. Information on the entity Id and device class attribute can be found on your Home Assistant under Developer Tools->State. The device class attribute is under the column attributes and should usually be called "device_class".
-
-![image](https://github.com/yileijiang/smart-plug-data-flutter-app/assets/71334281/06f1529e-6a63-4f19-b64c-09f2d35aa964)
-
+2. Open the application and navigate to the "Registered Smart Plugs" page, tap the add button and register all smart plugs entities you wish to collect data for. For each smart plug, provide the Home Assistant entity Id of the smart plug and its device class attribute. Information on the entity Id and device class attribute can be found on your Home Assistant under Developer Tools->State. The device class attribute is under the column attributes and should usually be called "device_class". The Device Class Attribute should be something like "device_class" and NOT the value of the device class, i.e. is should NOT be "power"
+![diagram1](https://github.com/yileijiang/smart-plug-data-flutter-app/assets/71334281/2f95d4f6-337d-428b-b39a-a7e77657cbae)
 
 
 
