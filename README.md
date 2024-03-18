@@ -23,7 +23,11 @@
 
 ## Summary
 
-Development of a lightweight and user friendly mobile application, leveraging the Home Assistant WebSocket API, for the purpose of the collection of smart plug usage data and activity labels provided by the user.
+The main contribution of the thesis is the design and development of a lightweight and user friendly Android mobile application, which addresses the complexities and challenges commonly associated with the data collection process within smart home environments.
+
+The application leverages the Home Assistant WebSocket API to faciliate an effortless and streamlined data collection process for smart plug usage data. Notably, the application provides users with the ability to conveniently assign activity labels for smart plug usage data in real time, thus enhancing the contextual understanding of the collected data. Moreover, users can download and share the collected data and have granular control over the entire data collection and sharing process.
+
+This Repository includes the result of the development process, which is an APK that can be downloaded and installed on any Android smart phone, as well as the source code for the application.
 
 
 **Keywords**: Smart Home, Smart Plug Usage Data, Home Assistant API, Mobile Application, Data Collection, Activity Labels
