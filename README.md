@@ -73,30 +73,29 @@ The following steps describe how to set up and use the application, to collect s
 
 1. Set up a Home Assistant instance and integrate all smart plugs, for which data should be collected, to the platform. The integration may vary for different smart plug models.
 
-2. Open the application and navigate to the "Registered Smart Plugs" page, tap the add button and register all smart plugs entities you wish to collect data for. For each smart plug, provide the Home Assistant entity Id of the smart plug and its device class attribute. Information on the entity Id and device class attribute can be found on your Home Assistant under Developer Tools->State. The device class attribute is under the column attributes and should usually be called "device_class". The Device Class Attribute should be something like "device_class" and NOT the value of the device class, i.e. is should NOT be "power"
+2. Open the application and navigate to the "Registered Smart Plugs" page, tap the add button and register all smart plugs entities you wish to collect data for. For each smart plug, provide the Home Assistant entity Id of the smart plug and its device class attribute.
+Information on the Home Assistant entity Id and device class attribute can be found on Home Assistant under Developer Tools->State. The device class attribute is under the column attributes and should usually be called "device_class". The Device Class Attribute should be the key and something like "device_class" and NOT the value of the device class, i.e. is should NOT be "power". You can also specify whether you would like to receive notifications for this specific home assistant entity.
 
 ![picture1](https://github.com/yileijiang/smart-plug-data-flutter-app/assets/71334281/565f3199-fb13-454e-8333-b520d1579476)
 
-
-
-
-4. 
-Provide the entity Id of the smart plug.
-Provide the attribute key of the attribute that specifies the device class of the sensor. 
-The default is set to the value "device_class", but this attribute may differ between smart plug brands and HA integrations.
-To find the entity Id and device class attribute key, go to the Home Assistant Instance and navigate to Developer Tools > States
-The entity Id can be found under the column "Entity".
-The device class attribute key can be found under the column "Attributes".
-5. Navigate to the settings page and add the address of the Home Assistant instance, as well as the Long Lived Access Token.
-The Home Assistant address should include the port.
+3. Navigate to the settings page add the address of the Home Assistant instance, as well as the Long Lived Access Token.
+- The Home Assistant address should include the port.
 Example of a Home Assistant address format: "10.42.17.9:8123"
-The Long Lived Access Token can be generated in the profile page of Home Assistant under the section "Long-Lived Access Tokens"
-6. Connect to the Home Assistant API in the Settings page. Upon successful connection and authentication, a foreground service and the data collection process will be started.
-7. Enter labels to smart plug usage entries in the home page, or by clicking on the notifications (if the notification setting was enabled).
-8. Navigate to the home page and download the smart plug usage data. Provide an encryption password. Make sure to remember or store the password somewhere safely, as there will be no way to retrieve it.
-The .aes file can be found in the "Downloads" file in the device's external storage.
-9. The encrypted file can be shared and decrypted using any software employing the AES Crypt standard file format and the previously specified encryption password.
-https://www.aescrypt.com/aes_file_format.html#:~:text=AES%20Crypt%20reads%20and%20writes,is%20easily%20identifiable%20by%20software.
+
+- The Long Lived Access Token can be generated in the profile page of Home Assistant under the section "Long-Lived Access Tokens".
+
+- You can also set your notifications preference for ALL registered smart plug entities, i.e. whether you want to receive notifications in general.
+
+5. Connect to the Home Assistant API in the Settings page. Please allow the application to send you notifications. Upon successful connection and authentication, a foreground service will be active and the data collection process will be started. Every time a state changes for one of the registered smart plug entities, it will now be saved in an entry. If you have notifications enabled, you will receive a notification for every state change. You can click on the notification and it will launch a dialog, where you can enter a label.
+
+6. You can find all entries on the application's home page, where you can also edit every entry, i.e. delete the entry or change the label.
+
+7. You can download the entries by clicking the download button on the home page. The downloaded file will be encrypted using AES encryption. To download the entries, you need to provide a file name and an encryption password. Make sure to remember or store the password somewhere safely, as there will be no way to retrieve it and it is necessary to decrypt the file containing the entries.
+Entries are saved in JSON format and all Home Assistant entity Ids are anonymized (i.e. converted to numbers).
+The file can be found in the "Downloads" folder. After downloading, you can share the file using your prefered way (e.g. Gmail).
+
+9. The encrypted file decrypted using any software employing the AES Crypt standard file format and the previously specified encryption password.
+More information can be found at https://www.aescrypt.com/aes_file_format.html#:~:text=AES%20Crypt%20reads%20and%20writes,is%20easily%20identifiable%20by%20software
 
 
 ## Results
